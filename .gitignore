@@ -9,6 +9,14 @@
 # production
 /build
 
+# Generated Files by Apollo Gen
+src/types/api.d.js
+schema.json
+
+# Env Files
+src/.env
+src/cloudinary.ts
+
 # misc
 .DS_Store
 .env.local
