@@ -23,6 +23,8 @@ interface IState {
   email: string;
   profilePhoto: string;
   uploading: boolean;
+  age: number;
+  password: string;
 }
 
 interface IProps extends RouteComponentProps<any> {}
@@ -40,15 +42,25 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     firstName: "",
     lastName: "",
     profilePhoto: "",
+    age: 0,
+    password: "",
     uploading: false
   };
   public render() {
-    const { email, firstName, lastName, profilePhoto, uploading } = this.state;
+    const {
+      email,
+      firstName,
+      lastName,
+      profilePhoto,
+      uploading,
+      age,
+      password
+    } = this.state;
     return (
       <ProfileQuery
         query={USER_PROFILE}
         onCompleted={data => this.updateFields(data)}
-        fetchPolicy={"cache-and-network"}
+        // fetchPolicy={"cache-and-network"}
       >
         {({}) => (
           <UpdateProfileMutation
@@ -58,7 +70,9 @@ class EditAccountContainer extends React.Component<IProps, IState> {
               email,
               firstName,
               lastName,
-              profilePhoto
+              profilePhoto,
+              password,
+              age
             }}
             onCompleted={data => {
               const { UpdateProfile } = data;
@@ -129,12 +143,13 @@ class EditAccountContainer extends React.Component<IProps, IState> {
         GetMyProfile: { user }
       } = data;
       if (user !== null) {
-        const { firstName, lastName, email, profilePhoto } = user;
+        const { firstName, lastName, email, profilePhoto, age } = user;
         this.setState({
           email,
           firstName,
           lastName,
-          profilePhoto
+          profilePhoto,
+          age
         } as any);
       }
     }

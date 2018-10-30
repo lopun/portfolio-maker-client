@@ -11,7 +11,7 @@ export const USER_PROFILE = gql`
         lastName
         email
         fullName
-        isDriving
+        age
       }
     }
   }
