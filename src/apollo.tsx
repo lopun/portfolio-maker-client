@@ -1,5 +1,8 @@
 import ApolloClient, { Operation } from "apollo-boost";
 
+/*
+  ApolloClient에서는 __typename을 꼭 가지고 있어야 함. type을 명시해주는 역할. 없으면 애러가 나버림
+*/
 const client = new ApolloClient({
   clientState: {
     defaults: {
