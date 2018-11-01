@@ -28,6 +28,29 @@ export interface updateProfileVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: allUsers
+// ====================================================
+
+export interface allUsers_AllUsers_users {
+  __typename: "User";
+  fullName: string | null;
+}
+
+export interface allUsers_AllUsers {
+  __typename: "AllUsersResponse";
+  ok: boolean;
+  error: string | null;
+  users: (allUsers_AllUsers_users | null)[] | null;
+}
+
+export interface allUsers {
+  AllUsers: allUsers_AllUsers;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: userProfile
 // ====================================================
 

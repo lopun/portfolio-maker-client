@@ -3,9 +3,10 @@ import styled from "../../typed-components";
 import BackArrow from "../BackArrow";
 
 const Container = styled.header`
-  background-color: black;
+  background-color: white;
   color: white;
   display: flex;
+  justify-content: space-between;
   height: 50px;
   font-size: 20px;
   font-weight: 300;
@@ -20,17 +21,32 @@ const Container = styled.header`
 
 const Title = styled.h2`
   margin-left: 10px;
+  font-weight: 700;
+  color: #0e4d9e;
+`;
+
+const Profile = styled.h2`
+  margin-right: 10px;
+  color: #0e4d9e;
+`;
+
+const Login = styled.h2`
+  margin-right: 10px;
+  color: #0e4d9e;
+  font-weight: 700;
 `;
 
 interface IProps {
   title: string;
   backTo?: string;
+  isLoggedIn: boolean;
 }
 
-const Header: React.SFC<IProps> = ({ title, backTo }) => (
+const Header: React.SFC<IProps> = ({ title, backTo, isLoggedIn }) => (
   <Container>
     {backTo && <BackArrow backTo={backTo} />}
     <Title>{title}</Title>
+    {isLoggedIn ? <Profile>profile</Profile> : <Login>Login</Login>}
   </Container>
 );
 
