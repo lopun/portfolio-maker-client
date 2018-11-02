@@ -37,7 +37,25 @@ const TitleContainer = styled.div`
   margin-bottom: 10px;
 `;
 
-const ProjectDetailPresenter = ({ name, content }) => (
+const Button = styled.button`
+  border: none;
+  background-color: ${props => props.theme.greyColor};
+  flex: 1;
+  font-size: 25px;
+  color: white;
+  padding: 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  &:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+
+const ProjectEditPresenter = ({ name, content }) => (
   <>
     <Header title={"Portfolio"} />
     <Container>
@@ -46,6 +64,10 @@ const ProjectDetailPresenter = ({ name, content }) => (
       </Helmet>
       <TitleContainer>
         <Title>{name}</Title>
+        <Button style={{ marginRight: "20px" }} onClick={() => null}>
+          Edit Project
+        </Button>
+        <Button onClick={() => null}>Delete Project</Button>
       </TitleContainer>
       <ContentPreview>
         <div>
@@ -56,4 +78,4 @@ const ProjectDetailPresenter = ({ name, content }) => (
   </>
 );
 
-export default ProjectDetailPresenter;
+export default ProjectEditPresenter;

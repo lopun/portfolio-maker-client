@@ -1,5 +1,5 @@
 import React from "react";
-import ProjectDetailPresenter from "./ProjectDetailPresenter";
+import ProjectEditPresenter from "./ProjectEditPresenter";
 import { getProject } from "src/types/api";
 import { Query } from "react-apollo";
 import { GET_PROJECT } from "src/sharedQueries";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 class GetProjectQuery extends Query<getProject> {}
 
-class ProjectDetailContainer extends React.Component<any> {
+class ProjectEditContainer extends React.Component<any> {
   public state = {
     name: "",
     content: ""
@@ -23,7 +23,7 @@ class ProjectDetailContainer extends React.Component<any> {
         onCompleted={data => updateFields(data)}
         variables={{ id: Number(id) }}
       >
-        {() => <ProjectDetailPresenter name={name} content={content} />}
+        {() => <ProjectEditPresenter name={name} content={content} />}
       </GetProjectQuery>
     );
   }
@@ -48,4 +48,4 @@ class ProjectDetailContainer extends React.Component<any> {
   };
 }
 
-export default ProjectDetailContainer;
+export default ProjectEditContainer;

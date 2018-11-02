@@ -105,7 +105,7 @@ const ProjectsPresenter = ({
       <ProjectWrapper>
         {projects &&
           projects.map(project => (
-            <Title to={`/projects/${project.id}`}>{project.name}</Title>
+            <Title to={`/projects/${project.id}/edit`}>{project.name}</Title>
           ))}
       </ProjectWrapper>
       <AddProjectForm
@@ -137,7 +137,6 @@ const ProjectsPresenter = ({
             placeholder={"# This supports markdown!"}
             name={"content"}
           />
-          {/* <MarkdownRenderer markdown={content} className={"markdown"} /> */}
           <div>
             <ReactMarkdown source={content} />
           </div>
