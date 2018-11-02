@@ -159,6 +159,8 @@ class Header extends React.Component<IProps, any> {
     }));
     localStorage.removeItem("fullName");
     logoutFn();
+    window.location.pathname = "/";
+    window.location.reload();
   };
 }
 
