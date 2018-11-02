@@ -31,7 +31,7 @@ const Title = styled(Link)`
   color: #0e4d9e;
 `;
 
-const Profile = styled.h2`
+const Profile = styled.div`
   color: #0e4d9e;
   display: flex;
   cursor: pointer;
