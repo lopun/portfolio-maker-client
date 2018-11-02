@@ -7,6 +7,7 @@ import Header from "src/Components/Header";
 import Input from "src/Components/Input";
 import PhotoInput from "src/Components/PhotoInput";
 import styled from "src/typed-components";
+import { toast } from "react-toastify";
 
 const Container = styled.div``;
 
@@ -22,6 +23,8 @@ interface IProps {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
+  passwordCheck: string;
   profilePhoto: string;
   onSubmit: MutationFn;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -33,6 +36,8 @@ const EditAccountPresenter: React.SFC<IProps> = ({
   firstName,
   lastName,
   email,
+  password,
+  passwordCheck,
   onSubmit,
   profilePhoto,
   onInputChange,
@@ -49,7 +54,15 @@ const EditAccountPresenter: React.SFC<IProps> = ({
       fileUrl={profilePhoto}
       onChange={onInputChange}
     />
-    <ExtendedForm submitFn={onSubmit}>
+    <ExtendedForm
+      submitFn={() => {
+        if (password === passwordCheck) {
+          onSubmit();
+        } else {
+          toast.error("Password Does not match!");
+        }
+      }}
+    >
       <ExtendedInput
         onChange={onInputChange}
         type={"text"}
@@ -70,6 +83,20 @@ const EditAccountPresenter: React.SFC<IProps> = ({
         value={email}
         placeholder={"Email"}
         name={"email"}
+      />
+      <ExtendedInput
+        onChange={onInputChange}
+        type={"password"}
+        value={password}
+        placeholder={"Enter Password"}
+        name={"password"}
+      />
+      <ExtendedInput
+        onChange={onInputChange}
+        type={"password"}
+        value={passwordCheck}
+        placeholder={"Enter password again"}
+        name={"passwordCheck"}
       />
       <Button onClick={null} value={loading ? "Loading" : "Update"} />
     </ExtendedForm>

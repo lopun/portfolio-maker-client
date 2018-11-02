@@ -21,6 +21,7 @@ interface IState {
   firstName: string;
   lastName: string;
   email: string;
+  passwordCheck: string;
   profilePhoto: string;
   uploading: boolean;
   age: number;
@@ -44,6 +45,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     profilePhoto: "",
     age: 0,
     password: "",
+    passwordCheck: "",
     uploading: false
   };
   public render() {
@@ -54,7 +56,8 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       profilePhoto,
       uploading,
       age,
-      password
+      password,
+      passwordCheck
     } = this.state;
     return (
       <ProfileQuery
@@ -88,6 +91,8 @@ class EditAccountContainer extends React.Component<IProps, IState> {
                 email={email}
                 firstName={firstName}
                 lastName={lastName}
+                password={password}
+                passwordCheck={passwordCheck}
                 profilePhoto={profilePhoto}
                 onInputChange={this.onInputChange}
                 loading={loading}

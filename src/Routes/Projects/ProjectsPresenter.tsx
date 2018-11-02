@@ -105,7 +105,7 @@ const ProjectsPresenter = ({
       <ProjectWrapper>
         {projects &&
           projects.map(project => (
-            <Title to={`/project/${project.id}`}>{project.name}</Title>
+            <Title to={`/projects/${project.id}`}>{project.name}</Title>
           ))}
       </ProjectWrapper>
       <AddProjectForm

@@ -6,6 +6,7 @@ import UserDetail from "src/Routes/UserDetail";
 import Login from "src/Routes/Login";
 import Resume from "src/Routes/Resume";
 import Projects from "src/Routes/Projects";
+import ProjectDetail from "src/Routes/ProjectDetail";
 import EditAccount from "src/Routes/EditAccount";
 
 // interface : 앞으로 쓸 틀을 짜는 것
@@ -27,7 +28,8 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
           <Route path={"/users/:id"} component={UserDetail} />
           <Route path={"/edit-account"} component={EditAccount} />
           <Route path={"/resume"} component={Resume} />
-          <Route path={"/projects"} component={Projects} />
+          <Route exact={true} path={"/projects"} component={Projects} />
+          <Route path={"/projects/:id"} component={ProjectDetail} />
           <Redirect from={"*"} to={"/"} />
         </Switch>
       </BrowserRouter>
