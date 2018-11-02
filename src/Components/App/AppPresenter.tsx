@@ -5,6 +5,7 @@ import Home from "src/Routes/Home";
 import UserDetail from "src/Routes/UserDetail";
 import Login from "src/Routes/Login";
 import ResumeDetail from "src/Routes/ResumeDetail";
+import ResumeEdit from "src/Routes/ResumeEdit";
 import Projects from "src/Routes/Projects";
 import ProjectDetail from "src/Routes/ProjectDetail";
 import ProjectEdit from "src/Routes/ProjectEdit";
@@ -28,7 +29,12 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
           <Route path={"/login"} component={Login} />
           <Route path={"/users/:id"} component={UserDetail} />
           <Route path={"/edit-account"} component={EditAccount} />
-          <Route path={"/resume/:id"} component={ResumeDetail} />
+          <Route exact={true} path={"/resume/:id"} component={ResumeDetail} />
+          <Route
+            exact={true}
+            path={"/resume/:id/edit"}
+            component={ResumeEdit}
+          />
           <Route exact={true} path={"/projects"} component={Projects} />
           <Route
             exact={true}
