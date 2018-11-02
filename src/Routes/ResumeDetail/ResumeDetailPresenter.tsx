@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 80%;
   margin: 0 auto;
 `;
-const ProjectDetailPresenter = ({ name, content }) => (
+const ResumeDetailPresenter = ({ name, content }) => (
   <>
     <Header title={"Portfolio"} />
     <Container>
@@ -22,4 +22,4 @@ const ProjectDetailPresenter = ({ name, content }) => (
   </>
 );
 
-export default ProjectDetailPresenter;
+export default ResumeDetailPresenter;

@@ -30,3 +30,16 @@ export const GET_PROJECT = gql`
     }
   }
 `;
+
+export const GET_RESUME = gql`
+  query getResume($id: Int!) {
+    GetResume(id: $id) {
+      ok
+      error
+      resume {
+        name
+        content
+      }
+    }
+  }
+`;
