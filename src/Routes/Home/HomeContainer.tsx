@@ -3,9 +3,9 @@ import HomePresenter from "./HomePresenter";
 import { ALL_USERS } from "./HomeQueries";
 import { Query } from "react-apollo";
 import { toast } from "react-toastify";
-import { allUsers, userProfile } from "src/types/api";
+import { allUsers } from "src/types/api";
 
-class AllUsersQuery extends Query<userProfile> {}
+class AllUsersQuery extends Query<allUsers> {}
 
 class HomeContainer extends React.Component<any> {
   public state = {

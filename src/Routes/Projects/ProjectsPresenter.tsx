@@ -4,7 +4,6 @@ import styled from "src/typed-components";
 import Header from "src/Components/Header";
 import Form from "src/Components/Form";
 import TextareaAutosize from "react-textarea-autosize";
-// import MarkdownRenderer from "react-markdown-renderer";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";

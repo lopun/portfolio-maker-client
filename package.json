@@ -26,6 +26,7 @@
     "styled-reset": "^1.6.0"
   },
   "scripts": {
+    "prestart": "yarn codegen",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
