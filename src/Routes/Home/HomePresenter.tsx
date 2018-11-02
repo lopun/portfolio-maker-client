@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "src/typed-components";
 import Helmet from "react-helmet";
+import Header from "src/Components/Header";
 
 const Container = styled.div``;
 
@@ -20,18 +21,18 @@ const SingleUser = styled.div`
   align-items: center;
   text-transform: uppercase;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.19), 0 2px 6px rgba(0, 0, 0, 0.23);
+  cursor: pointer;
 `;
 
-const HomePresenter = ({ data, loading, handlePush }) => (
+const HomePresenter = ({ users, loading, handlePush }) => (
   <Container>
     <Helmet>
       <title>Home | Portfolio Maker</title>
     </Helmet>
+    <Header title={"Portfolio Maker"} />
     <UserWrapper>
       {!loading &&
-        data &&
-        data.AllUsers &&
-        data.AllUsers.users.map(user => (
+        users.map(user => (
           <SingleUser onClick={() => handlePush(user)} key={user.id}>
             {user.fullName}
           </SingleUser>

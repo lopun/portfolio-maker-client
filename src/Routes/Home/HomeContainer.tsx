@@ -2,23 +2,34 @@ import React from "react";
 import HomePresenter from "./HomePresenter";
 import { ALL_USERS } from "./HomeQueries";
 import { Query } from "react-apollo";
+import { toast } from "react-toastify";
+import { allUsers, userProfile } from "src/types/api";
+
+class AllUsersQuery extends Query<userProfile> {}
 
 class HomeContainer extends React.Component<any> {
+  public state = {
+    users: []
+  };
+
   public render() {
     const { handlePush } = this;
     return (
-      <Query query={ALL_USERS}>
+      <AllUsersQuery
+        query={ALL_USERS}
+        onCompleted={data => this.updateFields(data)}
+        fetchPolicy={"cache-and-network"}
+      >
         {({ data, loading, error }) => {
-          console.log(data);
           return (
             <HomePresenter
-              data={data}
+              users={this.state.users}
               loading={loading}
               handlePush={handlePush}
             />
           );
         }}
-      </Query>
+      </AllUsersQuery>
     );
   }
 
@@ -29,6 +40,23 @@ class HomeContainer extends React.Component<any> {
       history.push({ pathname: `/users/${user.id}` });
     } else {
       history.push("/");
+    }
+  };
+
+  public updateFields = async (data: {} | allUsers) => {
+    if ("AllUsers" in data) {
+      const {
+        AllUsers: { ok, error, users }
+      } = data;
+      if (ok) {
+        if (users !== [] || users !== undefined) {
+          this.setState({
+            users
+          } as any);
+        }
+      } else if (error) {
+        toast.error(error);
+      }
     }
   };
 }
