@@ -5,6 +5,10 @@ export const GET_USER_PROFILE = gql`
     GetUserProfile(id: $id) {
       ok
       error
+      likeCount
+      myLike {
+        state
+      }
       user {
         id
         email
@@ -21,6 +25,16 @@ export const GET_USER_PROFILE = gql`
           content
         }
       }
+    }
+  }
+`;
+
+export const CREATE_LIKE = gql`
+  mutation createLike($receiverId: Int!) {
+    CreateLike(receiverId: $receiverId) {
+      ok
+      error
+      likeState
     }
   }
 `;

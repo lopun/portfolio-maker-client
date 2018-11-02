@@ -2,6 +2,8 @@ import React from "react";
 import styled from "src/typed-components";
 import Helmet from "react-helmet";
 import Header from "src/Components/Header";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { IconContext } from "react-icons";
 
 const Container = styled.div`
   width: 100%;
@@ -71,15 +73,26 @@ const ProjectWrapper = styled.div``;
 
 const Project = styled.div``;
 
+const HeartIcon = styled.button`
+  background-color: transparent;
+  border: none;
+  outline: none;
+  &:active {
+    outline: none;
+  }
+`;
+
 const UserDetailPresenter = ({
-  id,
   email,
   fullName,
   age,
   resume,
   projects,
   changeMenu,
-  currentMenu
+  currentMenu,
+  likeCount,
+  likeState,
+  likeFn
 }) => (
   <Container>
     <Helmet>
@@ -90,6 +103,14 @@ const UserDetailPresenter = ({
       <Info>NAME: {fullName && fullName}</Info>
       <Info>AGE: {age && age}</Info>
       <Info>EMAIL: {email && email}</Info>
+      <Info>
+        <IconContext.Provider value={{ color: "#ed4d62", size: "20px" }}>
+          <HeartIcon onClick={likeFn}>
+            {likeState ? <FaHeart /> : <FaRegHeart />}
+          </HeartIcon>
+        </IconContext.Provider>
+        {likeCount && likeCount}
+      </Info>
     </UserWrapper>
     <PortfolioWrapper>
       <ToggleMenu>

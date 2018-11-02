@@ -1,11 +1,13 @@
 import React from "react";
 import UserDetailPresenter from "./UserDetailPresenter";
-import { Query } from "react-apollo";
-import { getUserProfile } from "src/types/api";
-import { GET_USER_PROFILE } from "./UserDetailQueries";
+import { Query, Mutation } from "react-apollo";
+import { getUserProfile, createLike, createLikeVariables } from "src/types/api";
+import { GET_USER_PROFILE, CREATE_LIKE } from "./UserDetailQueries";
 import { toast } from "react-toastify";
 
 class GetUserProfileQuery extends Query<getUserProfile> {}
+
+class CreateLikeMutation extends Mutation<createLike, createLikeVariables> {}
 
 class UserDetailContainer extends React.Component<any> {
   public state = {
@@ -15,6 +17,8 @@ class UserDetailContainer extends React.Component<any> {
     age: null,
     resume: null,
     projects: null,
+    likeCount: null,
+    likeState: false,
     currentMenu: 0
   };
 
@@ -24,29 +28,91 @@ class UserDetailContainer extends React.Component<any> {
         params: { id: userId }
       }
     } = this.props;
-    const { id, email, fullName, age, resume, projects, currentMenu } = this.state;
-    return <GetUserProfileQuery query={GET_USER_PROFILE} // tslint:disable-next-line
-        variables={{ id: parseInt(userId) }} onCompleted={data => this.updateFields(data)}>
-        {({ data, loading, error }) => <UserDetailPresenter id={id} email={email} fullName={fullName} age={age} resume={resume} projects={projects} changeMenu={this.changeMenu} currentMenu={currentMenu}/>}
-      </GetUserProfileQuery>;
+    const {
+      email,
+      fullName,
+      age,
+      resume,
+      projects,
+      currentMenu,
+      likeCount,
+      likeState
+    } = this.state;
+    return (
+      <CreateLikeMutation
+        mutation={CREATE_LIKE}
+        variables={{ receiverId: Number(userId) }}
+        onCompleted={data => this.updateLikeField(data)}
+        refetchQueries={[
+          { query: GET_USER_PROFILE, variables: { id: Number(userId) } }
+        ]}
+      >
+        {likeFn => (
+          <GetUserProfileQuery
+            query={GET_USER_PROFILE}
+            variables={{ id: Number(userId) }}
+            onCompleted={data => this.updateFields(data)}
+          >
+            {() => (
+              <UserDetailPresenter
+                email={email}
+                fullName={fullName}
+                age={age}
+                resume={resume}
+                projects={projects}
+                likeCount={likeCount}
+                likeState={likeState}
+                changeMenu={this.changeMenu}
+                currentMenu={currentMenu}
+                likeFn={likeFn}
+              />
+            )}
+          </GetUserProfileQuery>
+        )}
+      </CreateLikeMutation>
+    );
   }
 
+  public updateLikeField = async (data: {} | createLike) => {
+    if ("CreateLike" in data) {
+      const {
+        CreateLike: { ok, error, likeState }
+      } = data;
+      if (ok) {
+        this.setState({
+          likeState
+        });
+      } else if (error) {
+        toast.error(error);
+      }
+    }
+  };
+
   public updateFields = async (data: {} | getUserProfile) => {
-    console.log("Updated");
     if ("GetUserProfile" in data) {
       const {
-        GetUserProfile: { ok, error, user }
+        GetUserProfile: { ok, error, user, likeCount, myLike }
       } = data;
       if (ok) {
         if (user !== null) {
           const { id, email, fullName, age, resume, projects } = user;
+          let likeState;
+          if (myLike) {
+            const { state } = myLike;
+            console.log(state);
+            likeState = state === "LIKE";
+          } else {
+            likeState = null;
+          }
           this.setState({
             id,
             email,
             fullName,
             age,
             resume,
-            projects
+            projects,
+            likeCount,
+            likeState
           });
         }
       } else if (error) {
