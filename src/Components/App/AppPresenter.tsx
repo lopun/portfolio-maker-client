@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
 import Home from "src/Routes/Home";
 import UserDetail from "src/Routes/UserDetail";
+import RecommendCreate from "src/Routes/RecommendCreate";
 import Login from "src/Routes/Login";
 import ResumeDetail from "src/Routes/ResumeDetail";
 import ResumeEdit from "src/Routes/ResumeEdit";
@@ -27,7 +28,8 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
         <Switch>
           <Route exact={true} path={"/"} component={Home} />
           <Route path={"/login"} component={Login} />
-          <Route path={"/users/:id"} component={UserDetail} />
+          <Route exact={true} path={"/users/:id"} component={UserDetail} />
+          <Route path={"/users/:id/recommend"} component={RecommendCreate} />
           <Route path={"/edit-account"} component={EditAccount} />
           <Route exact={true} path={"/resume/:id"} component={ResumeDetail} />
           <Route

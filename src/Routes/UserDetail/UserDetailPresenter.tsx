@@ -4,9 +4,11 @@ import Helmet from "react-helmet";
 import Header from "src/Components/Header";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import MarkdownView from "src/Components/MarkdownView";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -66,10 +68,13 @@ const SelectedSpan = styled.span`
 `;
 
 const ResumeWrapper = styled.div`
+  width: 100%;
   display: flex;
 `;
 
-const ProjectWrapper = styled.div``;
+const ProjectWrapper = styled.div`
+  width: 100%;
+`;
 
 const Project = styled.div``;
 
@@ -80,6 +85,17 @@ const HeartIcon = styled.button`
   &:active {
     outline: none;
   }
+`;
+
+const ResumeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const WriteRecommend = styled(Link)`
+  padding: 8px;
+  font-size: 25px;
 `;
 
 const UserDetailPresenter = ({
@@ -94,52 +110,72 @@ const UserDetailPresenter = ({
   likeState,
   likeFn
 }) => (
-  <Container>
-    <Helmet>
-      <title>{`${fullName && fullName} | Portfolio Maker`}</title>
-    </Helmet>
+  <>
     <Header title={"Portfolio Maker"} />
-    <UserWrapper>
-      <Info>NAME: {fullName && fullName}</Info>
-      <Info>AGE: {age && age}</Info>
-      <Info>EMAIL: {email && email}</Info>
-      <Info>
-        <IconContext.Provider value={{ color: "#ed4d62", size: "20px" }}>
-          <HeartIcon onClick={likeFn}>
-            {likeState ? <FaHeart /> : <FaRegHeart />}
-          </HeartIcon>
-        </IconContext.Provider>
-        {likeCount && likeCount}
-      </Info>
-    </UserWrapper>
-    <PortfolioWrapper>
-      <ToggleMenu>
-        <Button onClick={() => changeMenu(0)}>
-          {currentMenu === 0 ? <SelectedSpan>Resume</SelectedSpan> : "Resume"}
-        </Button>
-        <Button onClick={() => changeMenu(1)}>
-          {currentMenu === 1 ? (
-            <SelectedSpan>Projects</SelectedSpan>
-          ) : (
-            "Projects"
-          )}
-        </Button>
-      </ToggleMenu>
-      {currentMenu === 0 ? (
-        <ResumeWrapper>
-          {resume ? resume.name : "There's no resume!"}
-        </ResumeWrapper>
-      ) : (
-        <ProjectWrapper>
-          {projects && projects !== []
-            ? projects.map(project => (
-                <Project key={project.id}>{project.content}</Project>
-              ))
-            : "There's No Project!"}
-        </ProjectWrapper>
-      )}
-    </PortfolioWrapper>
-  </Container>
+    <Container>
+      <Helmet>
+        <title>{`${fullName && fullName} | Portfolio Maker`}</title>
+      </Helmet>
+      <UserWrapper>
+        <Info>NAME: {fullName && fullName}</Info>
+        <Info>AGE: {age && age}</Info>
+        <Info>EMAIL: {email && email}</Info>
+        <Info>
+          <IconContext.Provider value={{ color: "#ed4d62", size: "20px" }}>
+            <HeartIcon onClick={likeFn}>
+              {likeState ? <FaHeart /> : <FaRegHeart />}
+            </HeartIcon>
+          </IconContext.Provider>
+          {likeCount && likeCount}
+        </Info>
+        <WriteRecommend to={"/users/1/recommend"}>
+          Write Recommend
+        </WriteRecommend>
+      </UserWrapper>
+      <PortfolioWrapper>
+        <ToggleMenu>
+          <Button onClick={() => changeMenu(0)}>
+            {currentMenu === 0 ? <SelectedSpan>Resume</SelectedSpan> : "Resume"}
+          </Button>
+          <Button onClick={() => changeMenu(1)}>
+            {currentMenu === 1 ? (
+              <SelectedSpan>Projects</SelectedSpan>
+            ) : (
+              "Projects"
+            )}
+          </Button>
+          <Button onClick={() => changeMenu(2)}>
+            {currentMenu === 2 ? (
+              <SelectedSpan>Recommends</SelectedSpan>
+            ) : (
+              "Recommends"
+            )}
+          </Button>
+        </ToggleMenu>
+        {currentMenu === 0 ? (
+          <ResumeWrapper>
+            {resume ? (
+              <ResumeContainer>
+                <MarkdownView name={resume.name} content={resume.content} />
+              </ResumeContainer>
+            ) : (
+              "There's no resume!"
+            )}
+          </ResumeWrapper>
+        ) : currentMenu === 1 ? (
+          <ProjectWrapper>
+            {projects && projects !== []
+              ? projects.map(project => (
+                  <Project key={project.id}>{project.content}</Project>
+                ))
+              : "There's No Project!"}
+          </ProjectWrapper>
+        ) : (
+          "There's No Recommends!"
+        )}
+      </PortfolioWrapper>
+    </Container>
+  </>
 );
 
 export default UserDetailPresenter;
