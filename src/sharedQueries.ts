@@ -13,6 +13,11 @@ export const USER_PROFILE = gql`
         email
         fullName
         age
+        resume {
+          id
+          name
+          content
+        }
       }
     }
   }

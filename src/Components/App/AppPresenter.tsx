@@ -6,6 +6,8 @@ import UserDetail from "src/Routes/UserDetail";
 import RecommendCreate from "src/Routes/RecommendCreate";
 import RecommendUpdate from "src/Routes/RecommendUpdate";
 import Login from "src/Routes/Login";
+import SignUp from "src/Routes/SignUp";
+import ResumeCreate from "src/Routes/ResumeCreate";
 import ResumeDetail from "src/Routes/ResumeDetail";
 import ResumeEdit from "src/Routes/ResumeEdit";
 import Projects from "src/Routes/Projects";
@@ -28,25 +30,33 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
       <BrowserRouter>
         <Switch>
           <Route exact={true} path={"/"} component={Home} />
-          <Route path={"/login"} component={Login} />
+          <Route exact={true} path={"/login"} component={Login} />
+          <Route exact={true} path={"/signup"} component={SignUp} />
           <Route
             exact={true}
             path={"/users/:id"}
             render={props => <UserDetail {...props} isLoggedIn={isLoggedIn} />}
           />
           <Route
+            exact={true}
             path={"/users/:id/recommend/create"}
             render={props => (
               <RecommendCreate {...props} isLoggedIn={isLoggedIn} />
             )}
           />
           <Route
+            exact={true}
             path={"/recommend/:id/update"}
             render={props => (
               <RecommendUpdate {...props} isLoggedIn={isLoggedIn} />
             )}
           />
-          <Route path={"/edit-account"} component={EditAccount} />
+          <Route exact={true} path={"/edit-account"} component={EditAccount} />
+          <Route
+            exact={true}
+            path={"/resume/create"}
+            component={ResumeCreate}
+          />
           <Route exact={true} path={"/resume/:id"} component={ResumeDetail} />
           <Route
             exact={true}

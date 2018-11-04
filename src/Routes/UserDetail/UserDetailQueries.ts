@@ -16,6 +16,7 @@ export const GET_USER_PROFILE = gql`
         id
         email
         fullName
+        profilePhoto
         age
         resume {
           id

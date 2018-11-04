@@ -9,11 +9,19 @@ const UserWrapper = styled.div`
   width: 80%;
   margin: 0 auto;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
 `;
 
+const Image = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+`;
+
 const SingleUser = styled.div`
-  width: 30%;
+  flex: 1;
+  min-width: 300px;
   height: 100px;
   font-size: 20px;
   display: flex;
@@ -35,6 +43,12 @@ const HomePresenter = ({ users, loading, handlePush }) => (
         users.map(user => (
           <SingleUser onClick={() => handlePush(user)} key={user.id}>
             {user.fullName}
+            <Image
+              src={
+                user.profilePhoto ||
+                "https://res.cloudinary.com/dplj1ji7x/image/upload/v1541309689/user-placeholder.png"
+              }
+            />
           </SingleUser>
         ))}
     </UserWrapper>

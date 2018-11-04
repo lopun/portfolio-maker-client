@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Form from "src/Components/Form";
 import Input from "src/Components/Input";
-import { Link } from "react-router-dom";
+import PhotoInput from "src/Components/PhotoInput";
 
 const Container = styled.div`
   position: absolute;
@@ -25,8 +25,11 @@ const Logo = styled.div`
   cursor: pointer;
 `;
 
-const LoginForm = styled(Form)`
+const SignupForm = styled(Form)`
   width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   max-width: 400px;
   padding: 20px;
   background-color: white;
@@ -46,53 +49,67 @@ const Button = styled.button`
   font-size: 20px;
   cursor: pointer;
   color: white;
-  margin-bottom: 20px;
   background-color: ${props => props.theme.blueColor};
 `;
 
-const SignUp = styled(Link)`
-  background: none;
-  outline: none;
-  border: none;
-  width: 100%;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  cursor: pointer;
-  color: white;
-  background-color: ${props => props.theme.blueColor};
-`;
-
-const LoginPresenter = ({
-  onInputChange,
+const SignUpPresenter = ({
+  firstName,
+  lastName,
   email,
   password,
+  age,
+  profilePhoto,
+  updateFn,
   history,
-  onSubmit
+  onInputChange,
+  uploading
 }) => (
   <Container>
-    <LoginForm submitFn={onSubmit}>
-      <Logo onClick={() => history.push("/")}>Portfolio Maker</Logo>
+    <SignupForm submitFn={updateFn}>
+      <Logo onClick={() => history.push("/login")}>Portfolio Maker</Logo>
+      <PhotoInput
+        uploading={uploading}
+        fileUrl={profilePhoto}
+        onChange={onInputChange}
+      />
       <Input
         value={email}
         name={"email"}
         onChange={onInputChange}
-        placeholder={"email"}
+        placeholder={"Email"}
         type={"email"}
       />
       <Input
         value={password}
         name={"password"}
         onChange={onInputChange}
-        placeholder={"password"}
+        placeholder={"Password"}
         type={"password"}
       />
-      <Button type={"submit"}>Login</Button>
-      <SignUp to={"/signup"}>SignUp</SignUp>
-    </LoginForm>
+      <Input
+        value={firstName}
+        name={"firstName"}
+        onChange={onInputChange}
+        placeholder={"FirstName"}
+        type={"firstName"}
+      />
+      <Input
+        value={lastName}
+        name={"lastName"}
+        onChange={onInputChange}
+        placeholder={"LastName"}
+        type={"lastName"}
+      />
+      <Input
+        value={age}
+        name={"age"}
+        onChange={onInputChange}
+        placeholder={"Age"}
+        type={"age"}
+      />
+      <Button type={"submit"}>SignUp</Button>
+    </SignupForm>
   </Container>
 );
 
-export default LoginPresenter;
+export default SignUpPresenter;

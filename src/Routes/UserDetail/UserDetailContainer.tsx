@@ -20,6 +20,7 @@ class UserDetailContainer extends React.Component<any> {
     likeCount: null,
     likeState: false,
     recommends: null,
+    profilePhoto: null,
     currentMenu: 0,
     existingRecommend: null
   };
@@ -41,7 +42,8 @@ class UserDetailContainer extends React.Component<any> {
       likeCount,
       likeState,
       recommends,
-      existingRecommend
+      existingRecommend,
+      profilePhoto
     } = this.state;
     return (
       <CreateLikeMutation
@@ -74,6 +76,7 @@ class UserDetailContainer extends React.Component<any> {
                 isLoggedIn={isLoggedIn}
                 existingRecommend={existingRecommend}
                 userId={userId}
+                profilePhoto={profilePhoto}
               />
             )}
           </GetUserProfileQuery>
@@ -118,7 +121,8 @@ class UserDetailContainer extends React.Component<any> {
             age,
             resume,
             projects,
-            recommendAsReceiver
+            recommendAsReceiver,
+            profilePhoto
           } = user;
           let likeState;
           if (myLike) {
@@ -138,7 +142,8 @@ class UserDetailContainer extends React.Component<any> {
             likeCount,
             likeState,
             recommends: recommendAsReceiver,
-            existingRecommend
+            existingRecommend,
+            profilePhoto
           });
         }
       } else if (error) {
