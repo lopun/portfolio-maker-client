@@ -4,6 +4,7 @@ import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
 import Home from "src/Routes/Home";
 import UserDetail from "src/Routes/UserDetail";
 import RecommendCreate from "src/Routes/RecommendCreate";
+import RecommendUpdate from "src/Routes/RecommendUpdate";
 import Login from "src/Routes/Login";
 import ResumeDetail from "src/Routes/ResumeDetail";
 import ResumeEdit from "src/Routes/ResumeEdit";
@@ -28,8 +29,23 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
         <Switch>
           <Route exact={true} path={"/"} component={Home} />
           <Route path={"/login"} component={Login} />
-          <Route exact={true} path={"/users/:id"} component={UserDetail} />
-          <Route path={"/users/:id/recommend"} component={RecommendCreate} />
+          <Route
+            exact={true}
+            path={"/users/:id"}
+            render={props => <UserDetail {...props} isLoggedIn={isLoggedIn} />}
+          />
+          <Route
+            path={"/users/:id/recommend/create"}
+            render={props => (
+              <RecommendCreate {...props} isLoggedIn={isLoggedIn} />
+            )}
+          />
+          <Route
+            path={"/recommend/:id/update"}
+            render={props => (
+              <RecommendUpdate {...props} isLoggedIn={isLoggedIn} />
+            )}
+          />
           <Route path={"/edit-account"} component={EditAccount} />
           <Route exact={true} path={"/resume/:id"} component={ResumeDetail} />
           <Route

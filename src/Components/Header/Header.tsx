@@ -104,9 +104,13 @@ class Header extends React.Component<IProps, any> {
                 } = data;
                 if (ok) {
                   if (user) {
-                    const { fullName: gotFullName } = user;
+                    const { id: loggedInUserId, fullName: gotFullName } = user;
                     this.setState({ fullName: gotFullName });
                     if (gotFullName) {
+                      localStorage.setItem(
+                        "loggedInUserId",
+                        `${loggedInUserId}`
+                      );
                       localStorage.setItem("fullName", gotFullName);
                     }
                   }

@@ -19,14 +19,17 @@ class UserDetailContainer extends React.Component<any> {
     projects: null,
     likeCount: null,
     likeState: false,
-    currentMenu: 0
+    recommends: null,
+    currentMenu: 0,
+    existingRecommend: null
   };
 
   public render() {
     const {
       match: {
         params: { id: userId }
-      }
+      },
+      isLoggedIn
     } = this.props;
     const {
       email,
@@ -36,7 +39,9 @@ class UserDetailContainer extends React.Component<any> {
       projects,
       currentMenu,
       likeCount,
-      likeState
+      likeState,
+      recommends,
+      existingRecommend
     } = this.state;
     return (
       <CreateLikeMutation
@@ -64,7 +69,11 @@ class UserDetailContainer extends React.Component<any> {
                 likeState={likeState}
                 changeMenu={this.changeMenu}
                 currentMenu={currentMenu}
+                recommends={recommends}
                 likeFn={likeFn}
+                isLoggedIn={isLoggedIn}
+                existingRecommend={existingRecommend}
+                userId={userId}
               />
             )}
           </GetUserProfileQuery>
@@ -91,11 +100,26 @@ class UserDetailContainer extends React.Component<any> {
   public updateFields = async (data: {} | getUserProfile) => {
     if ("GetUserProfile" in data) {
       const {
-        GetUserProfile: { ok, error, user, likeCount, myLike }
+        GetUserProfile: {
+          ok,
+          error,
+          user,
+          likeCount,
+          myLike,
+          existingRecommend
+        }
       } = data;
       if (ok) {
         if (user !== null) {
-          const { id, email, fullName, age, resume, projects } = user;
+          const {
+            id,
+            email,
+            fullName,
+            age,
+            resume,
+            projects,
+            recommendAsReceiver
+          } = user;
           let likeState;
           if (myLike) {
             const { state } = myLike;
@@ -112,7 +136,9 @@ class UserDetailContainer extends React.Component<any> {
             resume,
             projects,
             likeCount,
-            likeState
+            likeState,
+            recommends: recommendAsReceiver,
+            existingRecommend
           });
         }
       } else if (error) {

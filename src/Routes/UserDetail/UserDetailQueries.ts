@@ -9,6 +9,9 @@ export const GET_USER_PROFILE = gql`
       myLike {
         state
       }
+      existingRecommend {
+        id
+      }
       user {
         id
         email
@@ -23,6 +26,11 @@ export const GET_USER_PROFILE = gql`
           id
           name
           content
+        }
+        recommendAsReceiver {
+          id
+          content
+          creatorId
         }
       }
     }

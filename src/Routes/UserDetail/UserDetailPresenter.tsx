@@ -93,12 +93,18 @@ const ResumeContainer = styled.div`
   width: 100%;
 `;
 
-const WriteRecommend = styled(Link)`
+const HandleRecommend = styled(Link)`
   padding: 8px;
   font-size: 25px;
 `;
 
+const RecommendsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const UserDetailPresenter = ({
+  userId,
   email,
   fullName,
   age,
@@ -108,7 +114,10 @@ const UserDetailPresenter = ({
   currentMenu,
   likeCount,
   likeState,
-  likeFn
+  likeFn,
+  recommends,
+  isLoggedIn,
+  existingRecommend
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -128,9 +137,21 @@ const UserDetailPresenter = ({
           </IconContext.Provider>
           {likeCount && likeCount}
         </Info>
-        <WriteRecommend to={"/users/1/recommend"}>
-          Write Recommend
-        </WriteRecommend>
+        {isLoggedIn ? (
+          existingRecommend ? (
+            <HandleRecommend to={`/recommend/${existingRecommend.id}/update`}>
+              Update Recommend
+            </HandleRecommend>
+          ) : (
+            <HandleRecommend to={`/users/${userId}/recommend/create`}>
+              Write Recommend
+            </HandleRecommend>
+          )
+        ) : (
+          <HandleRecommend to={"/login"}>
+            Login to Write Recommend
+          </HandleRecommend>
+        )}
       </UserWrapper>
       <PortfolioWrapper>
         <ToggleMenu>
@@ -171,7 +192,13 @@ const UserDetailPresenter = ({
               : "There's No Project!"}
           </ProjectWrapper>
         ) : (
-          "There's No Recommends!"
+          <RecommendsWrapper>
+            {recommends && recommends !== []
+              ? recommends.map(recommend => (
+                  <div key={recommend.id}>{recommend.content}</div>
+                ))
+              : "There's no recommends!"}
+          </RecommendsWrapper>
         )}
       </PortfolioWrapper>
     </Container>
