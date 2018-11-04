@@ -7,6 +7,7 @@ import RecommendCreate from "src/Routes/RecommendCreate";
 import RecommendUpdate from "src/Routes/RecommendUpdate";
 import Login from "src/Routes/Login";
 import SignUp from "src/Routes/SignUp";
+import ResumeCreate from "src/Routes/ResumeCreate";
 import ResumeDetail from "src/Routes/ResumeDetail";
 import ResumeEdit from "src/Routes/ResumeEdit";
 import Projects from "src/Routes/Projects";
@@ -51,6 +52,11 @@ const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
             )}
           />
           <Route exact={true} path={"/edit-account"} component={EditAccount} />
+          <Route
+            exact={true}
+            path={"/resume/create"}
+            component={ResumeCreate}
+          />
           <Route exact={true} path={"/resume/:id"} component={ResumeDetail} />
           <Route
             exact={true}

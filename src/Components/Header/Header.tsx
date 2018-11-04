@@ -76,7 +76,10 @@ class UserProfileQuery extends Query<userProfile> {}
 class Header extends React.Component<IProps, any> {
   public state = {
     fullName: "",
-    modal: false
+    modal: false,
+    resume: {
+      id: null
+    }
   };
 
   public componentDidMount() {
@@ -87,7 +90,7 @@ class Header extends React.Component<IProps, any> {
 
   public render() {
     const { title, backTo } = this.props;
-    const { fullName, modal } = this.state;
+    const { fullName, modal, resume } = this.state;
     const { handleLogOut } = this;
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     return (
@@ -104,8 +107,12 @@ class Header extends React.Component<IProps, any> {
                 } = data;
                 if (ok) {
                   if (user) {
-                    const { id: loggedInUserId, fullName: gotFullName } = user;
-                    this.setState({ fullName: gotFullName });
+                    const {
+                      id: loggedInUserId,
+                      fullName: gotFullName,
+                      resume: gotResume
+                    } = user;
+                    this.setState({ fullName: gotFullName, resume: gotResume });
                     if (gotFullName) {
                       localStorage.setItem(
                         "loggedInUserId",
@@ -132,7 +139,15 @@ class Header extends React.Component<IProps, any> {
                         <hr />
                         <ModalLink to={"/edit-account"}>Edit Account</ModalLink>
                         <hr />
-                        <ModalLink to={"/resume"}>Manage Resume</ModalLink>
+                        {resume.id ? (
+                          <ModalLink to={`/resume/${resume.id}/edit`}>
+                            Edit Resume
+                          </ModalLink>
+                        ) : (
+                          <ModalLink to={"/resume/create"}>
+                            Create Resume
+                          </ModalLink>
+                        )}
                         <hr />
                         <ModalLink to={"/projects"}>Manage Projects</ModalLink>
                       </ProfileModal>
