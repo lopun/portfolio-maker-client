@@ -8,6 +8,7 @@ export const ALL_USERS = gql`
       users {
         id
         fullName
+        profilePhoto
       }
     }
   }

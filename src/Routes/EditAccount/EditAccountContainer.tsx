@@ -24,7 +24,7 @@ interface IState {
   passwordCheck: string;
   profilePhoto: string;
   uploading: boolean;
-  age: number;
+  age: string;
   password: string;
 }
 
@@ -43,7 +43,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     firstName: "",
     lastName: "",
     profilePhoto: "",
-    age: 0,
+    age: "",
     password: "",
     passwordCheck: "",
     uploading: false
@@ -75,10 +75,12 @@ class EditAccountContainer extends React.Component<IProps, IState> {
               lastName,
               profilePhoto,
               password,
-              age
+              age: Number(age)
             }}
             onCompleted={data => {
               const { UpdateProfile } = data;
+              console.log(data);
+              console.log(this.state);
               if (UpdateProfile.ok) {
                 toast.success("Profile Updated!");
               } else if (UpdateProfile.error) {
@@ -92,6 +94,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
                 firstName={firstName}
                 lastName={lastName}
                 password={password}
+                age={String(age)}
                 passwordCheck={passwordCheck}
                 profilePhoto={profilePhoto}
                 onInputChange={this.onInputChange}
@@ -149,6 +152,7 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       } = data;
       if (user !== null) {
         const { firstName, lastName, email, profilePhoto, age } = user;
+        console.log(user);
         this.setState({
           email,
           firstName,
