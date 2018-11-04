@@ -1,5 +1,5 @@
 const theme = {
-  blueColor: "#3498db",
+  blueColor: "#0e4d9e",
   greenColor: "#1abc9c",
   greyColor: "#7f8c8d",
   yellowColor: "#f1c40f"

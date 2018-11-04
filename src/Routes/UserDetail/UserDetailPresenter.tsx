@@ -27,6 +27,27 @@ const Info = styled.div`
   font-weight: 400;
 `;
 
+const InfoWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const SpanWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const ProfileImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+`;
+
 const PortfolioWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -50,6 +71,7 @@ const Button = styled.button`
   height: 50px;
   font-size: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  margin-right: 20px;
   &:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   }
@@ -57,14 +79,15 @@ const Button = styled.button`
   &:active {
     outline: none;
   }
-  &:first-child {
-    margin-right: 20px;
+  &:last-child {
+    margin-right: 0;
   }
   cursor: pointer;
 `;
 
 const SelectedSpan = styled.span`
-  color: blue;
+  color: ${props => props.theme.blueColor};
+  font-weight: 700;
 `;
 
 const ResumeWrapper = styled.div`
@@ -74,9 +97,19 @@ const ResumeWrapper = styled.div`
 
 const ProjectWrapper = styled.div`
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 `;
 
-const Project = styled.div``;
+const Project = styled(Link)`
+  font-size: 20px;
+  padding: 8px;
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+`;
 
 const HeartIcon = styled.button`
   background-color: transparent;
@@ -99,8 +132,10 @@ const HandleRecommend = styled(Link)`
 `;
 
 const RecommendsWrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const UserDetailPresenter = ({
@@ -117,7 +152,8 @@ const UserDetailPresenter = ({
   likeFn,
   recommends,
   isLoggedIn,
-  existingRecommend
+  existingRecommend,
+  profilePhoto
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -126,17 +162,22 @@ const UserDetailPresenter = ({
         <title>{`${fullName && fullName} | Portfolio Maker`}</title>
       </Helmet>
       <UserWrapper>
-        <Info>NAME: {fullName && fullName}</Info>
-        <Info>AGE: {age && age}</Info>
-        <Info>EMAIL: {email && email}</Info>
-        <Info>
-          <IconContext.Provider value={{ color: "#ed4d62", size: "20px" }}>
-            <HeartIcon onClick={likeFn}>
-              {likeState ? <FaHeart /> : <FaRegHeart />}
-            </HeartIcon>
-          </IconContext.Provider>
-          {likeCount && likeCount}
-        </Info>
+        <InfoWrapper>
+          <ProfileImage src={profilePhoto} />
+          <SpanWrapper>
+            <Info>{fullName && fullName}</Info>
+            <Info>{age && age}</Info>
+            <Info>{email && email}</Info>
+            <Info>
+              <IconContext.Provider value={{ color: "#ed4d62", size: "20px" }}>
+                <HeartIcon onClick={likeFn}>
+                  {likeState ? <FaHeart /> : <FaRegHeart />}
+                </HeartIcon>
+              </IconContext.Provider>
+              {likeCount && likeCount}
+            </Info>
+          </SpanWrapper>
+        </InfoWrapper>
         {isLoggedIn ? (
           existingRecommend ? (
             <HandleRecommend to={`/recommend/${existingRecommend.id}/update`}>
@@ -187,7 +228,9 @@ const UserDetailPresenter = ({
           <ProjectWrapper>
             {projects && projects !== []
               ? projects.map(project => (
-                  <Project key={project.id}>{project.content}</Project>
+                  <Project to={`/projects/${project.id}`} key={project.id}>
+                    {project.name}
+                  </Project>
                 ))
               : "There's No Project!"}
           </ProjectWrapper>
@@ -195,9 +238,10 @@ const UserDetailPresenter = ({
           <RecommendsWrapper>
             {recommends && recommends !== []
               ? recommends.map(recommend => (
-                  <div key={recommend.id}>{recommend.content}</div>
+                  <MarkdownView name={""} content={recommend.content} />
                 ))
               : "There's no recommends!"}
+            {!recommends && "There's no recommends!"}
           </RecommendsWrapper>
         )}
       </PortfolioWrapper>

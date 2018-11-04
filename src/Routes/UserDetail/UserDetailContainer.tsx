@@ -20,6 +20,7 @@ class UserDetailContainer extends React.Component<any> {
     likeCount: null,
     likeState: false,
     recommends: null,
+    profilePhoto: null,
     currentMenu: 0,
     existingRecommend: null
   };
@@ -31,55 +32,12 @@ class UserDetailContainer extends React.Component<any> {
       },
       isLoggedIn
     } = this.props;
-    const {
-      email,
-      fullName,
-      age,
-      resume,
-      projects,
-      currentMenu,
-      likeCount,
-      likeState,
-      recommends,
-      existingRecommend
-    } = this.state;
-    return (
-      <CreateLikeMutation
-        mutation={CREATE_LIKE}
-        variables={{ receiverId: Number(userId) }}
-        onCompleted={data => this.updateLikeField(data)}
-        refetchQueries={[
-          { query: GET_USER_PROFILE, variables: { id: Number(userId) } }
-        ]}
-      >
-        {likeFn => (
-          <GetUserProfileQuery
-            query={GET_USER_PROFILE}
-            variables={{ id: Number(userId) }}
-            onCompleted={data => this.updateFields(data)}
-          >
-            {() => (
-              <UserDetailPresenter
-                email={email}
-                fullName={fullName}
-                age={age}
-                resume={resume}
-                projects={projects}
-                likeCount={likeCount}
-                likeState={likeState}
-                changeMenu={this.changeMenu}
-                currentMenu={currentMenu}
-                recommends={recommends}
-                likeFn={likeFn}
-                isLoggedIn={isLoggedIn}
-                existingRecommend={existingRecommend}
-                userId={userId}
-              />
-            )}
-          </GetUserProfileQuery>
-        )}
-      </CreateLikeMutation>
-    );
+    const { email, fullName, age, resume, projects, currentMenu, likeCount, likeState, recommends, existingRecommend, profilePhoto } = this.state;
+    return <CreateLikeMutation mutation={CREATE_LIKE} variables={{ receiverId: Number(userId) }} onCompleted={data => this.updateLikeField(data)} refetchQueries={[{ query: GET_USER_PROFILE, variables: { id: Number(userId) } }]}>
+        {likeFn => <GetUserProfileQuery query={GET_USER_PROFILE} variables={{ id: Number(userId) }} onCompleted={data => this.updateFields(data)}>
+            {() => <UserDetailPresenter email={email} fullName={fullName} age={age} resume={resume} projects={projects} likeCount={likeCount} likeState={likeState} changeMenu={this.changeMenu} currentMenu={currentMenu} recommends={recommends} likeFn={likeFn} isLoggedIn={isLoggedIn} existingRecommend={existingRecommend} userId={userId} profilePhoto={profilePhoto} />}
+          </GetUserProfileQuery>}
+      </CreateLikeMutation>;
   }
 
   public updateLikeField = async (data: {} | createLike) => {
@@ -99,27 +57,10 @@ class UserDetailContainer extends React.Component<any> {
 
   public updateFields = async (data: {} | getUserProfile) => {
     if ("GetUserProfile" in data) {
-      const {
-        GetUserProfile: {
-          ok,
-          error,
-          user,
-          likeCount,
-          myLike,
-          existingRecommend
-        }
-      } = data;
+      const { GetUserProfile: { ok, error, user, likeCount, myLike, existingRecommend } } = data;
       if (ok) {
         if (user !== null) {
-          const {
-            id,
-            email,
-            fullName,
-            age,
-            resume,
-            projects,
-            recommendAsReceiver
-          } = user;
+          const { id, email, fullName, age, resume, projects, recommendAsReceiver, profilePhoto } = user;
           let likeState;
           if (myLike) {
             const { state } = myLike;
@@ -138,7 +79,8 @@ class UserDetailContainer extends React.Component<any> {
             likeCount,
             likeState,
             recommends: recommendAsReceiver,
-            existingRecommend
+            existingRecommend,
+            profilePhoto
           });
         }
       } else if (error) {
