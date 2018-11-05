@@ -32,6 +32,7 @@ export const GET_PROJECT = gql`
         id
         name
         content
+        stack
       }
     }
   }

@@ -14,7 +14,7 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const AddProjectForm = styled(Form)``;
+const AddRecommendForm = styled(Form)``;
 
 const ContentPreview = styled.div`
   display: flex;
@@ -62,7 +62,7 @@ const RecommendUpdatePresenter = ({ content, onInputChange, updateFn }) => (
       <Helmet>
         <title>Recommend | Portfolio Maker</title>
       </Helmet>
-      <AddProjectForm
+      <AddRecommendForm
         submitFn={() => {
           if (content !== "") {
             updateFn();
@@ -85,7 +85,7 @@ const RecommendUpdatePresenter = ({ content, onInputChange, updateFn }) => (
         <Button onClick={() => null} type={"submit"}>
           Update Recommend
         </Button>
-      </AddProjectForm>
+      </AddRecommendForm>
     </Container>
   </>
 );
