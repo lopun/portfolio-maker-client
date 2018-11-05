@@ -9,15 +9,17 @@ class AllUsersQuery extends Query<allUsers> {}
 
 class HomeContainer extends React.Component<any> {
   public state = {
-    users: []
+    users: [],
+    currentMenu: 0
   };
 
   public render() {
-    const { handlePush } = this;
+    const { handlePush, handleMenu, updateFields } = this;
+    const { currentMenu } = this.state;
     return (
       <AllUsersQuery
         query={ALL_USERS}
-        onCompleted={data => this.updateFields(data)}
+        onCompleted={data => updateFields(data)}
         fetchPolicy={"cache-and-network"}
       >
         {({ data, loading, error }) => {
@@ -26,6 +28,8 @@ class HomeContainer extends React.Component<any> {
               users={this.state.users}
               loading={loading}
               handlePush={handlePush}
+              currentMenu={currentMenu}
+              handleMenu={handleMenu}
             />
           );
         }}
@@ -41,6 +45,12 @@ class HomeContainer extends React.Component<any> {
     } else {
       history.push("/");
     }
+  };
+
+  public handleMenu = num => {
+    this.setState({
+      currentMenu: num
+    });
   };
 
   public updateFields = async (data: {} | allUsers) => {

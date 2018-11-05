@@ -5,7 +5,7 @@ import Header from "src/Components/Header";
 
 const Container = styled.div``;
 
-const UserWrapper = styled.div`
+const ComponentWrapper = styled.div`
   width: 80%;
   margin: 0 auto;
   display: flex;
@@ -32,26 +32,66 @@ const SingleUser = styled.div`
   cursor: pointer;
 `;
 
-const HomePresenter = ({ users, loading, handlePush }) => (
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+`;
+
+const Button = styled.div<any>`
+  flex: 1;
+  background-color: white;
+  padding: 10px;
+  font-size: 24px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: ${props => props.selected && props.theme.blueColor};
+  font-weight: ${props => props.selected && "700"};
+  &:first-child {
+    margin-right: 20px;
+  }
+  cursor: pointer;
+`;
+
+const HomePresenter = ({
+  users,
+  loading,
+  handlePush,
+  handleMenu,
+  currentMenu
+}) => (
   <Container>
     <Helmet>
       <title>Home | Portfolio Maker</title>
     </Helmet>
     <Header title={"Portfolio Maker"} />
-    <UserWrapper>
-      {!loading &&
-        users.map(user => (
-          <SingleUser onClick={() => handlePush(user)} key={user.id}>
-            {user.fullName}
-            <Image
-              src={
-                user.profilePhoto ||
-                "https://res.cloudinary.com/dplj1ji7x/image/upload/v1541309689/user-placeholder.png"
-              }
-            />
-          </SingleUser>
-        ))}
-    </UserWrapper>
+    <ButtonWrapper>
+      <Button selected={currentMenu === 0} onClick={() => handleMenu(0)}>
+        User
+      </Button>
+      <Button selected={currentMenu === 1} onClick={() => handleMenu(1)}>
+        Search Projects By Tech Stack
+      </Button>
+    </ButtonWrapper>
+    {currentMenu === 0 ? (
+      <ComponentWrapper>
+        {!loading &&
+          users.map(user => (
+            <SingleUser onClick={() => handlePush(user)} key={user.id}>
+              {user.fullName}
+              <Image
+                src={
+                  user.profilePhoto ||
+                  "https://res.cloudinary.com/dplj1ji7x/image/upload/v1541309689/user-placeholder.png"
+                }
+              />
+            </SingleUser>
+          ))}
+      </ComponentWrapper>
+    ) : (
+      <ComponentWrapper>...</ComponentWrapper>
+    )}
   </Container>
 );
 
