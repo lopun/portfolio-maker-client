@@ -8,7 +8,6 @@ const StackWrapper = styled.div`
   font-size: 20px;
   padding: 8px;
   overflow-x: hidden;
-  margin-left: 20px;
 `;
 
 const SingleStack = styled.button`
@@ -32,15 +31,31 @@ const StackSpan = styled.span`
   font-size: 20px;
 `;
 
-const StackPresenter = ({ stack, stackFilter }) => (
-  <StackWrapper>
-    {stack.map(item => (
-      <SingleStack onClick={() => stackFilter(item)} style={{ marginRight: "8px" }} key={item}>
-        <StackImage src={stacks.find(s => s.name === item)!.image} />
-        <StackSpan>{item}</StackSpan>
-      </SingleStack>
-    ))}
-  </StackWrapper>
-);
+const StackPresenter = ({ stack, stackFilter }) => {
+  return (
+    <StackWrapper>
+      {stack && stack !== [] ? (
+        stack.map(item => (
+          <SingleStack
+            onClick={() => stackFilter(item)}
+            style={{ marginRight: "8px" }}
+            key={item}
+          >
+            <StackImage
+              src={
+                stacks.find(s => s.name === item)
+                  ? stacks.find(s => s.name === item)!.image
+                  : "https://www.hsdtaxlaw.com/wp-content/uploads/2016/05/20140806_LogoSupporterPlaceholder.png"
+              }
+            />
+            <StackSpan>{item}</StackSpan>
+          </SingleStack>
+        ))
+      ) : (
+        <StackSpan>There's no stacks!</StackSpan>
+      )}
+    </StackWrapper>
+  );
+};
 
 export default StackPresenter;

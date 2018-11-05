@@ -10,20 +10,23 @@ class GetProjectQuery extends Query<getProject> {}
 class ProjectEditContainer extends React.Component<any> {
   public state = {
     name: "",
-    content: ""
+    content: "",
+    stack: []
   };
 
   public render() {
     const { updateFields } = this;
     const { id } = this.props.match.params;
-    const { name, content } = this.state;
+    const { name, content, stack } = this.state;
     return (
       <GetProjectQuery
         query={GET_PROJECT}
         onCompleted={data => updateFields(data)}
         variables={{ id: Number(id) }}
       >
-        {() => <ProjectEditPresenter name={name} content={content} />}
+        {() => (
+          <ProjectEditPresenter name={name} content={content} stack={stack} />
+        )}
       </GetProjectQuery>
     );
   }
@@ -35,10 +38,11 @@ class ProjectEditContainer extends React.Component<any> {
       } = data;
       if (ok) {
         if (project) {
-          const { content, name } = project;
+          const { content, name, stack } = project;
           this.setState({
             content,
-            name
+            name,
+            stack
           });
         }
       } else if (error) {
