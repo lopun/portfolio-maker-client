@@ -2,7 +2,7 @@
 
 Portfolio Maker Client
 
-- [Demo Page](https://lopun.github.io/porfolio-maker-client/)
+- [Demo Page](https://lopun.github.io/portfolio-maker-client/)
 
 ## Scripts
 
