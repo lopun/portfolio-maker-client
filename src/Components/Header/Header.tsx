@@ -143,11 +143,13 @@ class Header extends React.Component<IProps, any> {
                         <hr />
                         <ModalLink to={"/edit-account"}>Edit Account</ModalLink>
                         <hr />
-                        {resume.id ? (
-                          <ModalLink to={`/resume/${resume.id}/edit`}>
-                            Edit Resume
-                          </ModalLink>
-                        ) : (
+                        {resume &&
+                          resume.id && (
+                            <ModalLink to={`/resume/${resume.id}/edit`}>
+                              Edit Resume
+                            </ModalLink>
+                          )}
+                        {!resume && (
                           <ModalLink to={"/resume/create"}>
                             Create Resume
                           </ModalLink>

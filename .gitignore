@@ -15,8 +15,8 @@ schema.json
 
 # Env Files
 src/.env
-src/cloudinary.tsx
-src/cloudinary.ts
+.env
+.env.local
 
 # misc
 .DS_Store
