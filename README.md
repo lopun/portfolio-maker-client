@@ -2,6 +2,8 @@
 
 Portfolio Maker Client
 
+- [Demo Page](https://lopun.github.io/porfolio-maker-client/)
+
 ## Scripts
 
 ### Start Server
@@ -20,13 +22,6 @@ yarn codegen
 ```
 
 ## Environment Configuration
-
-### Cloudinary
-
-```js
-copy cloudinary.example.ts cloudinary.ts
-// Then, configure cloudinary file based on your cloudinary service api id&password.
-```
 
 ## Source Struture
 

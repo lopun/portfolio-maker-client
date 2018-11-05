@@ -3,6 +3,7 @@ import styled from "src/typed-components";
 import Helmet from "react-helmet";
 import Header from "src/Components/Header";
 import ReactMarkdown from "react-markdown";
+import StackPresenter from "src/Components/StackPresenter";
 
 const Container = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ const Button = styled.button`
   }
 `;
 
-const ProjectEditPresenter = ({ name, content }) => (
+const ProjectEditPresenter = ({ name, content, stack }) => (
   <>
     <Header title={"Portfolio"} />
     <Container>
@@ -69,6 +70,7 @@ const ProjectEditPresenter = ({ name, content }) => (
         </Button>
         <Button onClick={() => null}>Delete Project</Button>
       </TitleContainer>
+      <StackPresenter stack={stack} stackFilter={() => null} />
       <ContentPreview>
         <div>
           <ReactMarkdown source={content} />

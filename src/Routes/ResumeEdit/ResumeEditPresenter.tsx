@@ -3,6 +3,9 @@ import styled from "src/typed-components";
 import Helmet from "react-helmet";
 import Header from "src/Components/Header";
 import ReactMarkdown from "react-markdown";
+import TextareaAutosize from "react-textarea-autosize";
+import { toast } from 'react-toastify';
+import Form from "src/Components/Form";
 
 const Container = styled.div`
   display: flex;
@@ -11,31 +14,11 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const Title = styled.div`
-  font-size: 25px;
-  font-weight: 700;
-  flex: 3;
-  &::placeholder {
-    font-weight: 700;
-  }
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-  padding: 8px;
-  margin-right: 20px;
-  background-color: transparent;
-  resize: none;
-  outline: none;
-`;
 
 const ContentPreview = styled.div`
   width: 100%;
 `;
 
-const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
 
 const Button = styled.button`
   border: none;
@@ -44,6 +27,7 @@ const Button = styled.button`
   font-size: 25px;
   color: white;
   padding: 8px;
+  margin-top: 14px;
   border-radius: 3px;
   cursor: pointer;
   transition: 0.3s ease-in-out;
@@ -55,25 +39,70 @@ const Button = styled.button`
   }
 `;
 
-const ResumeEditPresenter = ({ name, content }) => (
+const MarkdownWrapper = styled.div`
+  flex: 1;
+`;
+
+const ContentInput = styled(TextareaAutosize)`
+  width: 450px;
+  font-size: 18px;
+  margin-top: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  padding: 8px;
+  outline: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  flex: 1;
+  margin-right: 20px;
+`;
+
+const AddProjectForm = styled(Form)``;
+
+const ResumeEditPresenter = ({ name, content, onInputChange, updateFn }) => (
   <>
     <Header title={"Portfolio"} />
     <Container>
       <Helmet>
         <title>Resume | Portfolio Maker</title>
       </Helmet>
-      <TitleContainer>
-        <Title>{name}</Title>
-        <Button style={{ marginRight: "20px" }} onClick={() => null}>
-          Edit Resume
+      <AddProjectForm
+        submitFn={() => {
+          console.log("Submitting")
+          if (content!== "" && name!=="") {
+            updateFn();
+            return;
+          }
+          toast.error("You should fill out every form!");
+        }}
+      >
+        <ContentInput
+          value={name}
+          name={"name"}
+          onChange={onInputChange}
+        />
+          
+
+        <ContentPreview>
+          <ContentInput 
+            value={content}
+            onChange={onInputChange}
+            placeholder={"# This supports markdown!"}
+            name={"content"}
+          />
+          <MarkdownWrapper>
+            <ReactMarkdown source={content}/>
+          </MarkdownWrapper>
+          <Button onClick={() => null} type={"submit"}>
+            Edit Resume
+          </Button>
+        </ContentPreview>
+        <Button onClick={() => null}>
+            Delete Resume
         </Button>
-        <Button onClick={() => null}>Delete Resume</Button>
-      </TitleContainer>
-      <ContentPreview>
-        <div>
-          <ReactMarkdown source={content} />
-        </div>
-      </ContentPreview>
+      </AddProjectForm>
+      
     </Container>
   </>
 );

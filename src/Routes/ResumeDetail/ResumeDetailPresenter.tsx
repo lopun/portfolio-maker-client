@@ -15,7 +15,7 @@ const ResumeDetailPresenter = ({ name, content }) => (
     <Header title={"Portfolio"} />
     <Container>
       <Helmet>
-        <title>Project | Portfolio Maker</title>
+        <title>Resume | Portfolio Maker</title>
       </Helmet>
       <MarkdownView name={name} content={content} />
     </Container>

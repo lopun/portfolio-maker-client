@@ -21,13 +21,16 @@ interface IProps {
   isLoggedIn: boolean;
 }
 
+// const isDev = process.env.NODE_ENV === "development";
+
 // React.SFC : state가 없는 컴포넌트
 // <>안에 앞에서 정해 놓은 interface를 집어 넣어줌
+console.log(process.env.PUBLIC_URL);
 const AppPresenter: React.SFC<IProps> = ({ isLoggedIn }) => {
   localStorage.setItem("isLoggedIn", `${isLoggedIn}`);
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact={true} path={"/"} component={Home} />
           <Route exact={true} path={"/login"} component={Login} />

@@ -36,6 +36,7 @@ class RecommendUpdateContainer extends React.Component<any> {
         query={GET_RECOMMEND}
         variables={{ id }}
         onCompleted={onQueryCompleted}
+        fetchPolicy={"cache-and-network"}
       >
         {() => (
           <UpdateRecommendMutation

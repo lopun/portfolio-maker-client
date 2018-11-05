@@ -2,6 +2,8 @@ import React from "react";
 import styled from "src/typed-components";
 import Helmet from "react-helmet";
 import Header from "src/Components/Header";
+import AutoSuggestion from "src/Components/AutoSuggestion";
+import ProjectWrapper from "src/Components/ProjectWrapper";
 
 const Container = styled.div``;
 
@@ -11,6 +13,13 @@ const UserWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+`;
+
+const Projects = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Image = styled.img`
@@ -32,26 +41,79 @@ const SingleUser = styled.div`
   cursor: pointer;
 `;
 
-const HomePresenter = ({ users, loading, handlePush }) => (
+const ButtonWrapper = styled.div`
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+`;
+
+const Button = styled.div<any>`
+  flex: 1;
+  background-color: white;
+  padding: 10px;
+  font-size: 24px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  color: ${props => props.selected && props.theme.blueColor};
+  font-weight: ${props => props.selected && "700"};
+  &:first-child {
+    margin-right: 20px;
+  }
+  cursor: pointer;
+`;
+
+const HomePresenter = ({
+  users,
+  loading,
+  handlePush,
+  handleMenu,
+  currentMenu,
+  input,
+  onInputChange,
+  refetch,
+  projects
+}) => (
   <Container>
     <Helmet>
       <title>Home | Portfolio Maker</title>
     </Helmet>
     <Header title={"Portfolio Maker"} />
-    <UserWrapper>
-      {!loading &&
-        users.map(user => (
-          <SingleUser onClick={() => handlePush(user)} key={user.id}>
-            {user.fullName}
-            <Image
-              src={
-                user.profilePhoto ||
-                "https://res.cloudinary.com/dplj1ji7x/image/upload/v1541309689/user-placeholder.png"
-              }
-            />
-          </SingleUser>
-        ))}
-    </UserWrapper>
+    <ButtonWrapper>
+      <Button selected={currentMenu === 0} onClick={() => handleMenu(0)}>
+        User
+      </Button>
+      <Button selected={currentMenu === 1} onClick={() => handleMenu(1)}>
+        Search Projects By Tech Stack
+      </Button>
+    </ButtonWrapper>
+    {currentMenu === 0 ? (
+      <UserWrapper>
+        {!loading &&
+          users.map(user => (
+            <SingleUser onClick={() => handlePush(user)} key={user.id}>
+              {user.fullName}
+              <Image
+                src={
+                  user.profilePhoto ||
+                  "https://res.cloudinary.com/dplj1ji7x/image/upload/v1541309689/user-placeholder.png"
+                }
+              />
+            </SingleUser>
+          ))}
+      </UserWrapper>
+    ) : (
+      <Projects>
+        <AutoSuggestion
+          value={input}
+          onInputChange={onInputChange}
+          clickfn={() => refetch()}
+          placeholder={"Type Tech Stack."}
+        />
+        <div style={{ marginBottom: "20px" }} />
+        <ProjectWrapper projects={projects} />
+      </Projects>
+    )}
   </Container>
 );
 

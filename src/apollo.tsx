@@ -1,8 +1,7 @@
 import ApolloClient, { Operation } from "apollo-boost";
 
-/*
-  ApolloClient에서는 __typename을 꼭 가지고 있어야 함. type을 명시해주는 역할. 없으면 애러가 나버림
-*/
+const isDev = process.env.NODE_ENV === "development";
+
 const client = new ApolloClient({
   clientState: {
     defaults: {
@@ -47,7 +46,9 @@ const client = new ApolloClient({
       }
     });
   },
-  uri: "http://localhost:4000/graphql"
+  uri: isDev
+    ? "http://localhost:4000/graphql"
+    : "https://portfolio-maker-server-aanmtfngos.now.sh/graphql"
 });
 
 export default client;

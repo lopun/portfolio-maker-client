@@ -22,6 +22,7 @@ class ResumeDetailContainer extends React.Component<any> {
         query={GET_RESUME}
         onCompleted={data => updateFields(data)}
         variables={{ id: Number(id) }}
+        fetchPolicy={"cache-and-network"}
       >
         {() => <ResumeDetailPresenter name={name} content={content} />}
       </GetResumeQuery>
