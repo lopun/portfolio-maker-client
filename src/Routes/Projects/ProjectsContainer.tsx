@@ -38,6 +38,7 @@ class ProjectsContainer extends React.Component<any> {
           <GetProjectsByIdQuery
             query={GET_PROJECTS_BY_ID}
             onCompleted={updateFields}
+            fetchPolicy={"cache-and-network"}
           >
             {() => (
               <ProjectsPresenter

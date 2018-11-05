@@ -59,6 +59,7 @@ class UserDetailContainer extends React.Component<any> {
             query={GET_USER_PROFILE}
             variables={{ id: Number(userId) }}
             onCompleted={data => this.updateFields(data)}
+            fetchPolicy={"cache-and-network"}
           >
             {() => (
               <UserDetailPresenter

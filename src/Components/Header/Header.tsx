@@ -100,6 +100,7 @@ class Header extends React.Component<IProps, any> {
         {isLoggedIn === "true" ? (
           <UserProfileQuery
             query={USER_PROFILE}
+            fetchPolicy={"cache-and-network"}
             onCompleted={data => {
               if ("GetMyProfile" in data) {
                 const {
@@ -112,7 +113,10 @@ class Header extends React.Component<IProps, any> {
                       fullName: gotFullName,
                       resume: gotResume
                     } = user;
-                    this.setState({ fullName: gotFullName, resume: gotResume });
+                    this.setState({
+                      fullName: gotFullName,
+                      resume: gotResume
+                    });
                     if (gotFullName) {
                       localStorage.setItem(
                         "loggedInUserId",

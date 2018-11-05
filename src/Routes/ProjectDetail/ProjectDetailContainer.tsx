@@ -23,6 +23,7 @@ class ProjectDetailContainer extends React.Component<any> {
         query={GET_PROJECT}
         onCompleted={data => updateFields(data)}
         variables={{ id: Number(id) }}
+        fetchPolicy={"cache-and-network"}
       >
         {() => (
           <ProjectDetailPresenter name={name} content={content} stack={stack} />

@@ -23,6 +23,7 @@ class ProjectEditContainer extends React.Component<any> {
         query={GET_PROJECT}
         onCompleted={data => updateFields(data)}
         variables={{ id: Number(id) }}
+        fetchPolicy={"cache-and-network"}
       >
         {() => (
           <ProjectEditPresenter name={name} content={content} stack={stack} />
