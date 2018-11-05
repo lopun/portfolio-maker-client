@@ -7,6 +7,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import AutoSuggestion from "src/Components/AutoSuggestion";
+import StackPresenter from "src/Components/StackPresenter";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +33,7 @@ const Title = styled(Link)`
 `;
 
 const AddProjectForm = styled(Form)``;
-const TitleInput = styled(TextareaAutosize)`
+const BigInput = styled(TextareaAutosize)`
   font-size: 25px;
   font-weight: 700;
   flex: 1;
@@ -55,7 +57,6 @@ const ContentPreview = styled.div`
 
 const ContentInput = styled(TextareaAutosize)`
   font-size: 18px;
-  margin-top: 15px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 3px;
   padding: 8px;
@@ -64,11 +65,10 @@ const ContentInput = styled(TextareaAutosize)`
   resize: none;
   outline: none;
 `;
-
-const TitleContainer = styled.div`
+const BigContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const Button = styled.button`
@@ -92,9 +92,13 @@ const Button = styled.button`
 const ProjectsPresenter = ({
   content,
   name,
+  stack,
+  currentStack,
   projects,
   createFn,
-  onInputChange
+  onInputChange,
+  onStack,stackFilter,
+  // cleanState
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -105,7 +109,9 @@ const ProjectsPresenter = ({
       <ProjectWrapper>
         {projects &&
           projects.map(project => (
-            <Title to={`/projects/${project.id}/edit`}>{project.name}</Title>
+            <Title key={project.id} to={`/projects/${project.id}/edit`}>
+              {project.name}
+            </Title>
           ))}
       </ProjectWrapper>
       <AddProjectForm
@@ -113,35 +119,45 @@ const ProjectsPresenter = ({
           if (content !== "") {
             if (name !== "") {
               createFn();
+              // cleanState();
               return;
             }
           }
           toast.error("You Should Fillout Every Form!");
         }}
       >
-        <TitleContainer>
-          <TitleInput
+        <BigContainer>
+          <BigInput
             value={name}
-            onChange={onInputChange}
+            onChange={e => onInputChange(e, "")}
             placeholder={"Title..."}
             name={"name"}
           />
           <Button onClick={() => null} type={"submit"}>
             Add New Project
           </Button>
-        </TitleContainer>
-        <ContentPreview>
-          <ContentInput
-            value={content}
-            onChange={onInputChange}
-            placeholder={"# This supports markdown!"}
-            name={"content"}
-          />
-          <div>
-            <ReactMarkdown source={content} />
-          </div>
-        </ContentPreview>
+        </BigContainer>
       </AddProjectForm>
+      <BigContainer>
+        <AutoSuggestion
+          value={currentStack}
+          onInputChange={e => onInputChange(e, "stack")}
+          placeholder={"Type Stack that you use."}
+          clickfn={onStack}
+        />
+        <StackPresenter stack={stack} stackFilter={stackFilter}/>
+      </BigContainer>
+      <ContentPreview>
+        <ContentInput
+          value={content}
+          onChange={e => onInputChange(e, "")}
+          placeholder={"# This supports markdown!"}
+          name={"content"}
+        />
+        <div>
+          <ReactMarkdown source={content} />
+        </div>
+      </ContentPreview>
     </Container>
   </>
 );
