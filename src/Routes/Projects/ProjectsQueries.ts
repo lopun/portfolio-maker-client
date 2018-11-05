@@ -12,6 +12,11 @@ export const GET_PROJECTS_BY_ID = gql`
         content
         createdAt
         updatedAt
+        author {
+          id
+          fullName
+          profilePhoto
+        }
       }
     }
   }

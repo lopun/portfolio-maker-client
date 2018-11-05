@@ -5,31 +5,16 @@ import Header from "src/Components/Header";
 import Form from "src/Components/Form";
 import TextareaAutosize from "react-textarea-autosize";
 import ReactMarkdown from "react-markdown";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AutoSuggestion from "src/Components/AutoSuggestion";
 import StackPresenter from "src/Components/StackPresenter";
+import ProjectWrapper from "src/Components/ProjectWrapper";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
   margin: 0 auto;
-`;
-
-const ProjectWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const Title = styled(Link)`
-  width: 49%;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
-  font-size: 20px;
-  text-align: center;
 `;
 
 const AddProjectForm = styled(Form)``;
@@ -97,7 +82,8 @@ const ProjectsPresenter = ({
   projects,
   createFn,
   onInputChange,
-  onStack,stackFilter,
+  onStack,
+  stackFilter
   // cleanState
 }) => (
   <>
@@ -106,14 +92,8 @@ const ProjectsPresenter = ({
       <Helmet>
         <title>Projects | Portfolio Maker</title>
       </Helmet>
-      <ProjectWrapper>
-        {projects &&
-          projects.map(project => (
-            <Title key={project.id} to={`/projects/${project.id}/edit`}>
-              {project.name}
-            </Title>
-          ))}
-      </ProjectWrapper>
+      <ProjectWrapper projects={projects} />
+      <div style={{ marginBottom: "20px" }} />
       <AddProjectForm
         submitFn={() => {
           if (content !== "") {
@@ -129,7 +109,7 @@ const ProjectsPresenter = ({
         <BigContainer>
           <BigInput
             value={name}
-            onChange={e => onInputChange(e, "")}
+            onChange={onInputChange}
             placeholder={"Title..."}
             name={"name"}
           />
@@ -141,16 +121,16 @@ const ProjectsPresenter = ({
       <BigContainer>
         <AutoSuggestion
           value={currentStack}
-          onInputChange={e => onInputChange(e, "stack")}
+          onInputChange={onInputChange}
           placeholder={"Type Stack that you use."}
           clickfn={onStack}
         />
-        <StackPresenter stack={stack} stackFilter={stackFilter}/>
+        <StackPresenter stack={stack} stackFilter={stackFilter} />
       </BigContainer>
       <ContentPreview>
         <ContentInput
           value={content}
-          onChange={e => onInputChange(e, "")}
+          onChange={onInputChange}
           placeholder={"# This supports markdown!"}
           name={"content"}
         />

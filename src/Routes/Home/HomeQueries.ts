@@ -23,8 +23,11 @@ export const SEARCH_BY_STACK = gql`
         id
         name
         content
+        stack
         author {
-          lastName
+          id
+          profilePhoto
+          fullName
         }
       }
     }

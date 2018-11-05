@@ -2,15 +2,24 @@ import React from "react";
 import styled from "src/typed-components";
 import Helmet from "react-helmet";
 import Header from "src/Components/Header";
+import AutoSuggestion from "src/Components/AutoSuggestion";
+import ProjectWrapper from "src/Components/ProjectWrapper";
 
 const Container = styled.div``;
 
-const ComponentWrapper = styled.div`
+const UserWrapper = styled.div`
   width: 80%;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+`;
+
+const Projects = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Image = styled.img`
@@ -59,7 +68,11 @@ const HomePresenter = ({
   loading,
   handlePush,
   handleMenu,
-  currentMenu
+  currentMenu,
+  input,
+  onInputChange,
+  refetch,
+  projects
 }) => (
   <Container>
     <Helmet>
@@ -75,7 +88,7 @@ const HomePresenter = ({
       </Button>
     </ButtonWrapper>
     {currentMenu === 0 ? (
-      <ComponentWrapper>
+      <UserWrapper>
         {!loading &&
           users.map(user => (
             <SingleUser onClick={() => handlePush(user)} key={user.id}>
@@ -88,9 +101,18 @@ const HomePresenter = ({
               />
             </SingleUser>
           ))}
-      </ComponentWrapper>
+      </UserWrapper>
     ) : (
-      <ComponentWrapper>...</ComponentWrapper>
+      <Projects>
+        <AutoSuggestion
+          value={input}
+          onInputChange={onInputChange}
+          clickfn={() => refetch()}
+          placeholder={"Type Tech Stack."}
+        />
+        <div style={{ marginBottom: "20px" }} />
+        <ProjectWrapper projects={projects} />
+      </Projects>
     )}
   </Container>
 );

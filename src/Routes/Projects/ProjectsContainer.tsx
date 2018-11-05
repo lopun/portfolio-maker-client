@@ -28,11 +28,34 @@ class ProjectsContainer extends React.Component<any> {
   public render() {
     const { name, content, projects, stack, currentStack } = this.state;
     const { onInputChange, updateFields, onStack, stackFilter } = this;
-    return <CreateProjectMutation mutation={CREATE_PROJECT} variables={{ name, content, stack }} refetchQueries={[{ query: GET_PROJECTS_BY_ID }]}>
-        {createFn => <GetProjectsByIdQuery query={GET_PROJECTS_BY_ID} onCompleted={updateFields}>
-            {() => <ProjectsPresenter name={name} content={content} stack={stack} currentStack={currentStack} projects={projects} createFn={createFn} onInputChange={onInputChange} onStack={onStack} stackFilter={stackFilter} />}
-          </GetProjectsByIdQuery>}
-      </CreateProjectMutation>;
+    return (
+      <CreateProjectMutation
+        mutation={CREATE_PROJECT}
+        variables={{ name, content, stack }}
+        refetchQueries={[{ query: GET_PROJECTS_BY_ID }]}
+      >
+        {createFn => (
+          <GetProjectsByIdQuery
+            query={GET_PROJECTS_BY_ID}
+            onCompleted={updateFields}
+          >
+            {() => (
+              <ProjectsPresenter
+                name={name}
+                content={content}
+                stack={stack}
+                currentStack={currentStack}
+                projects={projects}
+                createFn={createFn}
+                onInputChange={onInputChange}
+                onStack={onStack}
+                stackFilter={stackFilter}
+              />
+            )}
+          </GetProjectsByIdQuery>
+        )}
+      </CreateProjectMutation>
+    );
   }
 
   public updateFields = async (data: {} | getProjectsById) => {
@@ -84,13 +107,13 @@ class ProjectsContainer extends React.Component<any> {
   //   })
   // }
 
-  public stackFilter = async (name) => {
-    const {stack} = this.state;
-    const filteredStack = stack.filter(item => item !== name)
+  public stackFilter = async name => {
+    const { stack } = this.state;
+    const filteredStack = stack.filter(item => item !== name);
     await this.setState({
       stack: filteredStack
-    })
-  }
+    });
+  };
 }
 
 export default ProjectsContainer;
