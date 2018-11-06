@@ -48,7 +48,7 @@ const client = new ApolloClient({
   },
   uri: isDev
     ? "http://localhost:4000/graphql"
-    : "https://portfolio-maker-server.lopun.org:4000/graphql"
+    : "http://portfolio-maker-server.lopun.org/playground"
 });
 
 export default client;
