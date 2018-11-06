@@ -133,13 +133,22 @@ class UserDetailContainer extends React.Component<any> {
           } else {
             likeState = null;
           }
+          let authorizedProjects;
+          if (projects) {
+            authorizedProjects = projects.map(project => ({
+              ...project,
+              author: user
+            }));
+          } else {
+            authorizedProjects = projects;
+          }
           this.setState({
             id,
             email,
             fullName,
             age,
             resume,
-            projects,
+            projects: authorizedProjects,
             likeCount,
             likeState,
             recommends: recommendAsReceiver,

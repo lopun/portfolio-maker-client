@@ -53,7 +53,7 @@ const ProjectWrapper = ({ projects }) => (
   <Container>
     {projects !== []
       ? projects.map(project => (
-          <SingleProject>
+          <SingleProject key={project.id}>
             <Title to={`/projects/${project.id}`}>{project.name}</Title>
             <UserWrapper to={`/users/${project.author.id}`}>
               <UserImage src={project.author.profilePhoto} />

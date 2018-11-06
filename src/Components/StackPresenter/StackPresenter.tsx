@@ -34,7 +34,8 @@ const StackSpan = styled.span`
 const StackPresenter = ({ stack, stackFilter }) => {
   return (
     <StackWrapper>
-      {stack && stack !== [] ? (
+      {stack &&
+        stack !== [] &&
         stack.map(item => (
           <SingleStack
             onClick={() => stackFilter(item)}
@@ -50,10 +51,8 @@ const StackPresenter = ({ stack, stackFilter }) => {
             />
             <StackSpan>{item}</StackSpan>
           </SingleStack>
-        ))
-      ) : (
-        <StackSpan>There's no stacks!</StackSpan>
-      )}
+        ))}
+      {!stack && <StackSpan>There's no stacks!</StackSpan>}
     </StackWrapper>
   );
 };

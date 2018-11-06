@@ -27,7 +27,13 @@ class ProjectsContainer extends React.Component<any> {
 
   public render() {
     const { name, content, projects, stack, currentStack } = this.state;
-    const { onInputChange, updateFields, onStack, stackFilter } = this;
+    const {
+      onInputChange,
+      updateFields,
+      onStack,
+      stackFilter,
+      cleanState
+    } = this;
     return (
       <CreateProjectMutation
         mutation={CREATE_PROJECT}
@@ -51,6 +57,7 @@ class ProjectsContainer extends React.Component<any> {
                 onInputChange={onInputChange}
                 onStack={onStack}
                 stackFilter={stackFilter}
+                cleanState={cleanState}
               />
             )}
           </GetProjectsByIdQuery>
@@ -60,7 +67,6 @@ class ProjectsContainer extends React.Component<any> {
   }
 
   public updateFields = async (data: {} | getProjectsById) => {
-    console.log("Updated");
     if ("GetProjectsById" in data) {
       const {
         GetProjectsById: { ok, error, projects }
@@ -87,11 +93,11 @@ class ProjectsContainer extends React.Component<any> {
     });
   };
 
-  public onInputChange = async (event, str) => {
+  public onInputChange = async event => {
     const {
       target: { name, value }
     } = event;
-    if (str === "stack") {
+    if (name === "stack") {
       this.setState({
         currentStack: value
       } as any);
@@ -102,11 +108,15 @@ class ProjectsContainer extends React.Component<any> {
     }
   };
 
-  // public cleanState = () => {
-  //   this.setState({
-  //     name:
-  //   })
-  // }
+  public cleanState = () => {
+    this.setState({
+      name: "",
+      content: "",
+      projects: [],
+      stack: [],
+      currentStack: ""
+    });
+  };
 
   public stackFilter = async name => {
     const { stack } = this.state;

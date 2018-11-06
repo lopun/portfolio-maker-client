@@ -6,6 +6,7 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import MarkdownView from "src/Components/MarkdownView";
 import { Link } from "react-router-dom";
+import ProjectWrapper from "src/Components/ProjectWrapper";
 
 const Container = styled.div`
   width: 80%;
@@ -94,23 +95,6 @@ const ResumeWrapper = styled.div`
   width: 100%;
   display: flex;
 `;
-
-const ProjectWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-
-const Project = styled(Link)`
-  font-size: 20px;
-  padding: 8px;
-  flex: 1;
-  min-width: 300px;
-  text-align: center;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
-`;
-
 const HeartIcon = styled.button`
   background-color: transparent;
   border: none;
@@ -225,20 +209,16 @@ const UserDetailPresenter = ({
             )}
           </ResumeWrapper>
         ) : currentMenu === 1 ? (
-          <ProjectWrapper>
-            {projects && projects !== []
-              ? projects.map(project => (
-                  <Project to={`/projects/${project.id}`} key={project.id}>
-                    {project.name}
-                  </Project>
-                ))
-              : "There's No Project!"}
-          </ProjectWrapper>
+          <ProjectWrapper projects={projects} />
         ) : (
           <RecommendsWrapper>
             {recommends && recommends !== []
               ? recommends.map(recommend => (
-                  <MarkdownView name={""} content={recommend.content} />
+                  <MarkdownView
+                    key={recommend.id}
+                    name={""}
+                    content={recommend.content}
+                  />
                 ))
               : "There's no recommends!"}
             {!recommends && "There's no recommends!"}

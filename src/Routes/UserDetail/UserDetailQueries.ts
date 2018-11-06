@@ -27,6 +27,7 @@ export const GET_USER_PROFILE = gql`
           id
           name
           content
+          stack
         }
         recommendAsReceiver {
           id

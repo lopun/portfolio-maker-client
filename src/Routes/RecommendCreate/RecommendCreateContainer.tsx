@@ -19,7 +19,6 @@ class RecommendCreateContainer extends React.Component<any> {
   public render() {
     const { onInputChange, onMutationCompleted } = this;
     const { content } = this.state;
-    console.log(this.props);
     const {
       params: { id }
     } = this.props.match;

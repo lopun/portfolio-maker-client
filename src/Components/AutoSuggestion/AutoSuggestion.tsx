@@ -53,11 +53,16 @@ function renderSuggestion(suggestion, { query }) {
     <SuggestionContent>
       <SuggestionImage src={suggestion.image} />
       {parts.map((part, index) => {
-        console.log(part, index);
         return part.highlight ? (
-            <HighlightedName key={`${part} ${index} ${Math.floor(Math.random() * 1000)}`}>{part.text}</HighlightedName>
+          <HighlightedName
+            key={`${part} ${index} ${Math.floor(Math.random() * 1000)}`}
+          >
+            {part.text}
+          </HighlightedName>
         ) : (
-            <Name key={`${part} ${index} ${Math.floor(Math.random() * 1000)}`}>{part.text}</Name>
+          <Name key={`${part} ${index} ${Math.floor(Math.random() * 1000)}`}>
+            {part.text}
+          </Name>
         );
       })}
     </SuggestionContent>
@@ -110,9 +115,9 @@ class App extends React.Component<any> {
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         onSuggestionSelected={(_, { suggestion }) => {
-          onInputChange({ target: { value: suggestion.name, name: "stack" } }).then(
-            () => clickfn()
-          );
+          onInputChange({
+            target: { value: suggestion.name, name: "stack" }
+          }).then(() => clickfn());
         }}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}

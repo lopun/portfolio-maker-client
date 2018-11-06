@@ -26,7 +26,6 @@ class RecommendUpdateContainer extends React.Component<any> {
   public render() {
     const { onInputChange, onMutationCompleted, onQueryCompleted } = this;
     const { content } = this.state;
-    console.log(this.props);
     const {
       params: { id: stringId }
     } = this.props.match;

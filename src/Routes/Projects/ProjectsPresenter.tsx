@@ -83,8 +83,8 @@ const ProjectsPresenter = ({
   createFn,
   onInputChange,
   onStack,
-  stackFilter
-  // cleanState
+  stackFilter,
+  cleanState
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -95,11 +95,11 @@ const ProjectsPresenter = ({
       <ProjectWrapper projects={projects} />
       <div style={{ marginBottom: "20px" }} />
       <AddProjectForm
-        submitFn={() => {
+        submitFn={async () => {
           if (content !== "") {
             if (name !== "") {
-              createFn();
-              // cleanState();
+              await createFn();
+              await cleanState();
               return;
             }
           }
