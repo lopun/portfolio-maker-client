@@ -156,7 +156,7 @@ class ProjectsContainer extends React.Component<any> {
         const url =
           process.env.NODE_ENV === "development"
             ? `http://localhost:4000/croller/${gitNickname}`
-            : `http://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
+            : `https://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
         await fetch(url)
           .then(res => res.json())
           .then(async json => {
