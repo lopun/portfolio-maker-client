@@ -84,7 +84,9 @@ const ProjectsPresenter = ({
   onInputChange,
   onStack,
   stackFilter,
-  cleanState
+  cleanState,
+  gitNickname,
+  gitCroller
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -92,6 +94,15 @@ const ProjectsPresenter = ({
       <Helmet>
         <title>Projects | Portfolio Maker</title>
       </Helmet>
+      <BigContainer>
+        <BigInput
+          value={gitNickname}
+          onChange={onInputChange}
+          placeholder={"Type your git nickname"}
+          name={"gitNickname"}
+        />
+        <Button onClick={() => gitCroller(createFn)}>Start Crolling</Button>
+      </BigContainer>
       <ProjectWrapper projects={projects} />
       <div style={{ marginBottom: "20px" }} />
       <AddProjectForm

@@ -22,17 +22,27 @@ class ProjectsContainer extends React.Component<any> {
     content: "",
     projects: [],
     stack: [],
-    currentStack: ""
+    currentStack: "",
+    gitNickname: "",
+    loading: false
   };
 
   public render() {
-    const { name, content, projects, stack, currentStack } = this.state;
+    const {
+      name,
+      content,
+      projects,
+      stack,
+      currentStack,
+      gitNickname
+    } = this.state;
     const {
       onInputChange,
       updateFields,
       onStack,
       stackFilter,
-      cleanState
+      cleanState,
+      gitCroller
     } = this;
     return (
       <CreateProjectMutation
@@ -40,28 +50,32 @@ class ProjectsContainer extends React.Component<any> {
         variables={{ name, content, stack }}
         refetchQueries={[{ query: GET_PROJECTS_BY_ID }]}
       >
-        {createFn => (
-          <GetProjectsByIdQuery
-            query={GET_PROJECTS_BY_ID}
-            onCompleted={updateFields}
-            fetchPolicy={"cache-and-network"}
-          >
-            {() => (
-              <ProjectsPresenter
-                name={name}
-                content={content}
-                stack={stack}
-                currentStack={currentStack}
-                projects={projects}
-                createFn={createFn}
-                onInputChange={onInputChange}
-                onStack={onStack}
-                stackFilter={stackFilter}
-                cleanState={cleanState}
-              />
-            )}
-          </GetProjectsByIdQuery>
-        )}
+        {createFn => {
+          return (
+            <GetProjectsByIdQuery
+              query={GET_PROJECTS_BY_ID}
+              onCompleted={updateFields}
+              fetchPolicy={"cache-and-network"}
+            >
+              {() => (
+                <ProjectsPresenter
+                  name={name}
+                  content={content}
+                  stack={stack}
+                  currentStack={currentStack}
+                  projects={projects}
+                  createFn={createFn}
+                  onInputChange={onInputChange}
+                  onStack={onStack}
+                  stackFilter={stackFilter}
+                  cleanState={cleanState}
+                  gitNickname={gitNickname}
+                  gitCroller={gitCroller}
+                />
+              )}
+            </GetProjectsByIdQuery>
+          );
+        }}
       </CreateProjectMutation>
     );
   }
@@ -124,6 +138,51 @@ class ProjectsContainer extends React.Component<any> {
     await this.setState({
       stack: filteredStack
     });
+  };
+
+  public gitCroller = async createFn => {
+    const { gitNickname } = this.state;
+    if (gitNickname === "") {
+      toast.error("You should fill in the name!");
+    } else {
+      if (
+        confirm(
+          "Are you sure that you want to croll all your projects from Github?"
+        )
+      ) {
+        await this.setState({
+          loading: true
+        });
+        const url =
+          process.env.NODE_ENV === "development"
+            ? `http://localhost:4000/croller/${gitNickname}`
+            : `http://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
+        await fetch(url)
+          .then(res => res.json())
+          .then(async json => {
+            let result;
+            for (result of json) {
+              await this.setState({
+                content: `## ${result.title}`,
+                stack: [result.stack],
+                name: result.title
+              });
+              await createFn();
+            }
+            this.setState({
+              content: "",
+              stack: [],
+              name: ""
+            });
+          });
+        this.setState({
+          loading: false
+        });
+        toast.success("Successfully Crolled!");
+      } else {
+        toast.error("You canceled to croll!");
+      }
+    }
   };
 }
 
