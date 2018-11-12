@@ -1,9 +1,9 @@
 import React from "react";
 import ProjectEditPresenter from "./ProjectEditPresenter";
-import { updateProject, updateProjectVariables, getProject } from "src/types/api";
+import { updateProject, updateProjectVariables, getProject, deleteProject, deleteProjectVariables } from "src/types/api";
 import { Query, Mutation } from "react-apollo";
 import { GET_PROJECT } from "src/sharedQueries";
-import {UPDATE_PROJECT} from "./ProjectEditQueries";
+import {UPDATE_PROJECT, DELETE_PROJECT} from "./ProjectEditQueries";
 import { toast } from "react-toastify";
 
 class GetProjectQuery extends Query<getProject> {}
@@ -12,6 +12,11 @@ class UpdateProjectMutation extends Mutation<
   updateProject,
   updateProjectVariables
 > {}
+
+class DeleteProjectMutation extends Mutation<
+  deleteProject,
+  deleteProjectVariables
+>{}
 
 class ProjectEditContainer extends React.Component<any> {
   public state = {
@@ -54,17 +59,23 @@ class ProjectEditContainer extends React.Component<any> {
             onCompleted={onMutationCompleted}
           >
           {(updateFn) => (
-            <ProjectEditPresenter
+            <DeleteProjectMutation
+              mutation={DELETE_PROJECT}
+              variables={{id: Number(id)}}
+            >
+            {(deleteFn) => (<ProjectEditPresenter
               content={content}
               name={name}
               stack={stack}
               currentStack={currentStack}
               onInputChange={onInputChange}
               updateFn={updateFn}
+              deleteFn={deleteFn}
               onStack={onStack}
               stackFilter={stackFilter}
               cleanState={cleanState}
-            />
+            />)}
+            </DeleteProjectMutation>
           )}
         </UpdateProjectMutation>
         )}

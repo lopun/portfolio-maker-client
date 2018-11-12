@@ -82,6 +82,7 @@ const ProjectEditPresenter = ({
   currentStack,
   onInputChange,
   updateFn,
+  deleteFn,
   onStack,
   stackFilter,
   cleanState
@@ -133,7 +134,7 @@ const ProjectEditPresenter = ({
         </div>
       </ContentPreview>
       <Button onClick={() => null} type={"submit"}>Edit Project</Button>
-      <Button onClick={() => null}>Delete Project</Button>
+      <Button onClick={deleteFn}>Delete Project</Button>
       </AddProjectForm>
     </Container>
   </>
