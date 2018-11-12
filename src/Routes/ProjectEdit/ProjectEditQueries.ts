@@ -9,7 +9,7 @@ export const DELETE_PROJECT = gql`
     }
 `;
 
-export const UPDATE_PORJECT = gql`
+export const UPDATE_PROJECT = gql`
     mutation updateProject($id: Int!, $name: String!, $content: String!, $stack: [String]) {
         UpdateProject(id: $id, name: $name, content: $content, stack: $stack) {
             ok
