@@ -8,6 +8,7 @@ import {
 } from "src/types/api";
 import { GET_PROJECTS_BY_ID, CREATE_PROJECT } from "./ProjectsQueries";
 import { toast } from "react-toastify";
+import Axios from "axios";
 
 class GetProjectsByIdQuery extends Query<getProjectsById> {}
 
@@ -156,12 +157,16 @@ class ProjectsContainer extends React.Component<any> {
         const url =
           process.env.NODE_ENV === "development"
             ? `http://localhost:4000/croller/${gitNickname}`
-            : `http://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
-        await fetch(url)
-          .then(res => res.json())
-          .then(async json => {
-            let result;
-            for (result of json) {
+            : `https://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
+        await Axios({
+          method: "get",
+          url
+        }).then(async response => {
+          let result;
+          const { data } = response;
+          if (data) {
+            // tslint:disable-next-line
+            for (result of data) {
               await this.setState({
                 content: `## ${result.title}`,
                 stack: [result.stack],
@@ -174,7 +179,8 @@ class ProjectsContainer extends React.Component<any> {
               stack: [],
               name: ""
             });
-          });
+          }
+        });
         this.setState({
           loading: false
         });
