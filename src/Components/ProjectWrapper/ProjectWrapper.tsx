@@ -49,17 +49,17 @@ const StackWrapper = styled(Link)`
   width: 100%;
 `;
 
-const ProjectWrapper = ({ projects }) => (
+const ProjectWrapper = ({ projects, edit }) => (
   <Container>
     {projects !== []
       ? projects.map(project => (
           <SingleProject key={project.id}>
-            <Title to={`/projects/${project.id}`}>{project.name}</Title>
+            <Title to={`/projects/${project.id}${edit ? '/edit': ''}`}>{project.name}</Title>
             <UserWrapper to={`/users/${project.author.id}`}>
               <UserImage src={project.author.profilePhoto} />
               <Span>{project.author.fullName}</Span>
             </UserWrapper>
-            <StackWrapper to={`/projects/${project.id}`}>
+            <StackWrapper to={`/projects/${project.id}${edit ? '/edit': ''}`}>
               <StackPresenter stack={project.stack} stackFilter={() => null} />
             </StackWrapper>
           </SingleProject>

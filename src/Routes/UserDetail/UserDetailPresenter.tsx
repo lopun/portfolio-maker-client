@@ -209,7 +209,7 @@ const UserDetailPresenter = ({
             )}
           </ResumeWrapper>
         ) : currentMenu === 1 ? (
-          <ProjectWrapper projects={projects} />
+          <ProjectWrapper projects={projects} edit={false}/>
         ) : (
           <RecommendsWrapper>
             {recommends && recommends !== []

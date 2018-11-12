@@ -92,7 +92,7 @@ const ProjectsPresenter = ({
       <Helmet>
         <title>Projects | Portfolio Maker</title>
       </Helmet>
-      <ProjectWrapper projects={projects} />
+      <ProjectWrapper projects={projects} edit={true}/>
       <div style={{ marginBottom: "20px" }} />
       <AddProjectForm
         submitFn={async () => {

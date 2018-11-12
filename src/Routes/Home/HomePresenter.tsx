@@ -111,7 +111,7 @@ const HomePresenter = ({
           placeholder={"Type Tech Stack."}
         />
         <div style={{ marginBottom: "20px" }} />
-        <ProjectWrapper projects={projects} />
+        <ProjectWrapper projects={projects} edit={false} />
       </Projects>
     )}
   </Container>
