@@ -30,3 +30,12 @@ export const CREATE_PROJECT = gql`
     }
   }
 `;
+
+export const CRAWLER = gql`
+  mutation crawler($username: String!) {
+    Crawler(username: $username) {
+      ok
+      error
+    }
+  }
+`;
