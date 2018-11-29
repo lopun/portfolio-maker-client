@@ -4,9 +4,11 @@ import { Query, Mutation } from "react-apollo";
 import {
   getProjectsById,
   createProject,
-  createProjectVariables
+  createProjectVariables,
+  crawlerVariables,
+  crawler
 } from "src/types/api";
-import { GET_PROJECTS_BY_ID, CREATE_PROJECT } from "./ProjectsQueries";
+import { GET_PROJECTS_BY_ID, CREATE_PROJECT, CRAWLER } from "./ProjectsQueries";
 import { toast } from "react-toastify";
 
 class GetProjectsByIdQuery extends Query<getProjectsById> {}
@@ -15,6 +17,8 @@ class CreateProjectMutation extends Mutation<
   createProject,
   createProjectVariables
 > {}
+
+class CrawlerMutation extends Mutation<crawler, crawlerVariables> {}
 
 class ProjectsContainer extends React.Component<any> {
   public state = {
@@ -34,7 +38,8 @@ class ProjectsContainer extends React.Component<any> {
       projects,
       stack,
       currentStack,
-      gitNickname
+      gitNickname,
+      loading
     } = this.state;
     const {
       onInputChange,
@@ -42,41 +47,56 @@ class ProjectsContainer extends React.Component<any> {
       onStack,
       stackFilter,
       cleanState,
-      gitCroller
+      onCrawlerCompleted
     } = this;
     return (
-      <CreateProjectMutation
-        mutation={CREATE_PROJECT}
-        variables={{ name, content, stack }}
+      <CrawlerMutation
+        mutation={CRAWLER}
+        variables={{ username: gitNickname }}
         refetchQueries={[{ query: GET_PROJECTS_BY_ID }]}
+        onCompleted={onCrawlerCompleted}
       >
-        {createFn => {
-          return (
-            <GetProjectsByIdQuery
-              query={GET_PROJECTS_BY_ID}
-              onCompleted={updateFields}
-              fetchPolicy={"cache-and-network"}
-            >
-              {() => (
-                <ProjectsPresenter
-                  name={name}
-                  content={content}
-                  stack={stack}
-                  currentStack={currentStack}
-                  projects={projects}
-                  createFn={createFn}
-                  onInputChange={onInputChange}
-                  onStack={onStack}
-                  stackFilter={stackFilter}
-                  cleanState={cleanState}
-                  gitNickname={gitNickname}
-                  gitCroller={gitCroller}
-                />
-              )}
-            </GetProjectsByIdQuery>
-          );
-        }}
-      </CreateProjectMutation>
+        {crawlerFn => (
+          <CreateProjectMutation
+            mutation={CREATE_PROJECT}
+            variables={{ name, content, stack }}
+            refetchQueries={[{ query: GET_PROJECTS_BY_ID }]}
+          >
+            {createFn => {
+              return (
+                <GetProjectsByIdQuery
+                  query={GET_PROJECTS_BY_ID}
+                  onCompleted={updateFields}
+                  fetchPolicy={"cache-and-network"}
+                >
+                  {() => (
+                    <ProjectsPresenter
+                      name={name}
+                      content={content}
+                      stack={stack}
+                      currentStack={currentStack}
+                      projects={projects}
+                      onInputChange={onInputChange}
+                      onStack={onStack}
+                      stackFilter={stackFilter}
+                      cleanState={cleanState}
+                      gitNickname={gitNickname}
+                      loading={loading}
+                      createFn={async () => {
+                        await this.setState({
+                          loading: true
+                        });
+                        createFn();
+                      }}
+                      crawlerFn={crawlerFn}
+                    />
+                  )}
+                </GetProjectsByIdQuery>
+              );
+            }}
+          </CreateProjectMutation>
+        )}
+      </CrawlerMutation>
     );
   }
 
@@ -140,47 +160,19 @@ class ProjectsContainer extends React.Component<any> {
     });
   };
 
-  public gitCroller = async createFn => {
-    const { gitNickname } = this.state;
-    if (gitNickname === "") {
-      toast.error("You should fill in the name!");
-    } else {
-      if (
-        confirm(
-          "Are you sure that you want to croll all your projects from Github?"
-        )
-      ) {
-        await this.setState({
-          loading: true
-        });
-        const url =
-          process.env.NODE_ENV === "development"
-            ? `http://localhost:4000/croller/${gitNickname}`
-            : `https://portfolio-maker-server.lopun.org/croller/${gitNickname}`;
-        await fetch(url)
-          .then(res => res.json())
-          .then(async json => {
-            let result;
-            for (result of json) {
-              await this.setState({
-                content: `## ${result.title}`,
-                stack: [result.stack],
-                name: result.title
-              });
-              await createFn();
-            }
-            this.setState({
-              content: "",
-              stack: [],
-              name: ""
-            });
-          });
-        this.setState({
-          loading: false
-        });
-        toast.success("Successfully Crolled!");
-      } else {
-        toast.error("You canceled to croll!");
+  public onCrawlerCompleted = async data => {
+    console.log(data);
+    if ("Crawler" in data) {
+      const {
+        Crawler: { ok, error }
+      } = data;
+      await this.setState({
+        loading: false
+      });
+      if (ok) {
+        toast.success("Successfully Crawlled!");
+      } else if (error) {
+        toast.error(error);
       }
     }
   };

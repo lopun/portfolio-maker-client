@@ -36,7 +36,7 @@ class ResumeEditContainer extends React.Component<any> {
             variables={{ id: Number(id), name, content }}
             onCompleted={onMutationCompleted}
           >
-            {updateFn => (
+            {(updateFn) => (
               <ResumeEditPresenter
                 name={name}
                 content={content}

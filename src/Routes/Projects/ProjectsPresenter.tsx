@@ -86,7 +86,8 @@ const ProjectsPresenter = ({
   stackFilter,
   cleanState,
   gitNickname,
-  gitCroller
+  crawlerFn,
+  loading
 }) => (
   <>
     <Header title={"Portfolio Maker"} />
@@ -101,10 +102,12 @@ const ProjectsPresenter = ({
           placeholder={"Type your git nickname"}
           name={"gitNickname"}
         />
-        <Button onClick={() => gitCroller(createFn)}>Start Crolling</Button>
+        {loading ? (
+          <Button onClick={() => null}>Crawlling Now...</Button>
+        ) : (
+          <Button onClick={crawlerFn}>Start Crolling</Button>
+        )}
       </BigContainer>
-      <ProjectWrapper projects={projects} />
-      <div style={{ marginBottom: "20px" }} />
       <AddProjectForm
         submitFn={async () => {
           if (content !== "") {
@@ -149,6 +152,8 @@ const ProjectsPresenter = ({
           <ReactMarkdown source={content} />
         </div>
       </ContentPreview>
+      <ProjectWrapper projects={projects} edit={true} />
+      <div style={{ marginBottom: "20px" }} />
     </Container>
   </>
 );
